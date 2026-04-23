@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: entertainment-agent-backend
+  labels:
+    app: entertainment-agent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: entertainment-agent
+  template:
+    metadata:
+      labels:
+        app: entertainment-agent
+    spec:
+      containers:
+      - name: backend
+        image: your-docker-username/entertainment-agent-backend:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: GOOGLE_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: google-api-secrets
+              key: GOOGLE_API_KEYS
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: entertainment-agent-service
+spec:
+  selector:
+    app: entertainment-agent
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
+  type: LoadBalancer

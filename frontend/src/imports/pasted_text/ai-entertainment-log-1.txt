@@ -1,0 +1,182 @@
+VM3739 AI-Entertainment-Recommendation-Frontend:4 Running frontend commit 949bcfe12f714425cbbb78eb163bdd3dc59d6dc1
+vendor-core-83c17265f2588e9e.min.js.br:54 Statsig is not ready to log exposures, will retry in 1 seconds
+(anonymous) @ vendor-core-83c17265f2588e9e.min.js.br:54
+vendor-core-83c17265f2588e9e.min.js.br:54 Loaded 35 scripts (5957612b), 35 from cache (5957612b)
+vendor-core-83c17265f2588e9e.min.js.br:54 [bootstrap_waiting_on_user_state] You appear to be logging a relative timestamp and not an epoch timestamp. Try adding performance.timeOrigin to the timestamp.
+(anonymous) @ vendor-core-83c17265f2588e9e.min.js.br:54
+vendor-core-83c17265f2588e9e.min.js.br:54 [import] git: 928aa3d9ac236592109160a5bd7bc0096da811d3, stamp: 3CC11CE07EEBCE56
+(index):1  Failed to load resource: net::ERR_FAILED
+vendor-core-83c17265f2588e9e.min.js.br:54 Autosave Changes not available or already claimed by another tab undefined
+9309-c7b930bd1a4cc50f.min.js.br:7 The powerPreference option is currently ignored when calling requestAdapter() on Windows. See https://crbug.com/369219127
+initialize @ 9309-c7b930bd1a4cc50f.min.js.br:7
+vendor-core-83c17265f2588e9e.min.js.br:54 [Fullscreen] Booting... (emscripten version 4.0.21)
+vendor-core-83c17265f2588e9e.min.js.br:54 [GPU] graphicsAPI:"WebGPU", vendor:"Google Inc. (Intel)" renderer:"ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A6) Direct3D11 vs_5_0 ps_5_0, D3D11)" deviceArchitecture:"gen-12lp" deviceDescription:"" webGPUDevice:"" webGPUVendor:"intel" bindings:"emdawnwebgpu"
+vendor-core-83c17265f2588e9e.min.js.br:54 [Fullscreen] Ready in 279.1ms
+vendor-core-83c17265f2588e9e.min.js.br:54 [FullscreenApp] calling setEditorTheme and setting preference dark
+vendor-core-83c17265f2588e9e.min.js.br:54 [MultiplayerSession] connecting to wss://www.figma.com/api/multiplayer/SkSM9vm26lOhGsFI18aHed?role=editor&tracking_session_id=rLR8ZkE4WDr1c8AF&version=151&recentReload=0&file-load-streaming-compression&user-id=1606202761286027030&client_release=949bcfe12f714425cbbb78eb163bdd3dc59d6dc1
+vendor-core-83c17265f2588e9e.min.js.br:54 [FullscreenApp] calling setEditorTheme and setting preference dark
+vendor-core-83c17265f2588e9e.min.js.br:54 [MultiplayerSession] Joining file version 106 (initial load)
+vendor-core-83c17265f2588e9e.min.js.br:54 Migration succeeded: context: fullscreen_migrate_SceneGraphManager, version: 106, duration: 0ms.
+vendor-core-83c17265f2588e9e.min.js.br:54 [Fullscreen] loadtime=5.93s maxmem=23893272
+vendor-core-83c17265f2588e9e.min.js.br:54 [devtools] Initialized LS
+vendor-core-83c17265f2588e9e.min.js.br:54 [devtools] Initialized LS
+vendor-core-83c17265f2588e9e.min.js.br:54 Sentry event id: 150a630691fd4f3b8efd0f9387e2ce87
+vendor-core-83c17265f2588e9e.min.js.br:54 Sentry event id: 42528fb748ba4624b2bbb7389ad9db93
+/api/make/SkSM9vm26lOhGsFI18aHed/cached_preview_urls?source_code_hash=3a7d13f9a575e363e97ab95206bf6fdb4c30a77d:1  Failed to load resource: the server responded with a status of 404 ()
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90 🎬 Loading movies from TMDB API...
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90 🔍 Checking TMDB API availability...
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90 🔥 Loading trending movies from TMDB API...
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90 🎬 CineVerse 🌐 LIVE API MODE
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90 ✅ App connected to TMDB API - Loading live movie data
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90 💡 This app works for all collaborators - no environment setup required!
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90 ⚠️ TMDB API check timed out - using mock data
+(anonymous) @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+r @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:17
+warn @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+(anonymous) @ tmdb.ts:83
+await in (anonymous)
+checkTMDBAvailability @ tmdb.ts:93
+fetchBollywoodMovies @ tmdb.ts:253
+loadAllIndustryMovies @ dataLoader.ts:58
+loadMovies @ AppContext.tsx:247
+(anonymous) @ AppContext.tsx:287
+TN @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+T8 @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+T7 @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+T6 @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+T4 @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+S1 @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+SQ @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+(anonymous) @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+(anonymous) @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:65
+V @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:61
+B @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:61
+eo @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:61
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90 📦 TMDB unavailable - using mock trending data
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90 📦 TMDB unavailable - using mock movie data
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90 ✅ Context loaded 15 trending movies
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90 ✅ Context loaded 31 movies
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90  POST http://localhost:8000/login net::ERR_CONNECTION_REFUSED
+(anonymous) @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+loginUser @ backend.ts:22
+(anonymous) @ AppContext.tsx:130
+handleDemo @ Login.tsx:106
+y @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+i @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+ik @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+ij @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+iz @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+dP @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dM @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dG @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dk @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+(anonymous) @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+SR @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+iR @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+d$ @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+lO @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+lN @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+lv @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+i @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+The resource <URL> was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+The resource <URL> was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+The resource <URL> was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+The resource <URL> was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+The resource <URL> was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+The resource <URL> was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+The resource <URL> was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+The resource <URL> was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+The resource <URL> was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+The resource <URL> was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+The resource <URL> was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+The resource <URL> was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+The resource <URL> was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+The resource <URL> was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90  POST http://localhost:8000/recommend net::ERR_CONNECTION_REFUSED
+(anonymous) @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+getRecommendations @ backend.ts:49
+(anonymous) @ AppContext.tsx:144
+handleSearch @ SearchBar.tsx:42
+onClick @ SearchBar.tsx:95
+y @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+i @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+ik @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+ij @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+iz @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+dP @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dM @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dG @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dk @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+(anonymous) @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+SR @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+iR @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+d$ @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+lO @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+lN @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+lv @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+i @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90 🤖 Sending to Gemini: Best Anime films
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90  POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent 404 (Not Found)
+(anonymous) @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+makeRequest @ @google_generative-ai.js?v=511a16fd:194
+makeModelRequest @ @google_generative-ai.js?v=511a16fd:189
+await in makeModelRequest
+generateContent @ @google_generative-ai.js?v=511a16fd:544
+(anonymous) @ @google_generative-ai.js?v=511a16fd:784
+Promise.then
+sendMessage @ @google_generative-ai.js?v=511a16fd:784
+await in sendMessage
+askGemini @ geminiService.ts:564
+handleSend @ ChatBot.tsx:103
+handleSuggestionClick @ ChatBot.tsx:139
+onClick @ ChatBot.tsx:361
+y @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+i @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+ik @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+ij @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+iz @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+dP @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dM @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dG @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dk @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+(anonymous) @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+SR @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+iR @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+d$ @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+lO @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+lN @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+lv @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+i @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90 ❌ Gemini API Error: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent: [404 ] models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+    at handleResponseNotOk (@google_generative-ai.js?v=511a16fd:226:9)
+    at async makeRequest (@google_generative-ai.js?v=511a16fd:199:5)
+    at async generateContent (@google_generative-ai.js?v=511a16fd:544:20)
+    at async ChatSession.sendMessage (@google_generative-ai.js?v=511a16fd:805:5)
+    at async askGemini (geminiService.ts:564:20)
+    at async handleSend (ChatBot.tsx:103:26)
+(anonymous) @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+r @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:17
+error @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+askGemini @ geminiService.ts:583
+await in askGemini
+handleSend @ ChatBot.tsx:103
+handleSuggestionClick @ ChatBot.tsx:139
+onClick @ ChatBot.tsx:361
+y @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+i @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+ik @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+ij @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+iz @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+dP @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dM @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dG @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dk @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+(anonymous) @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+SR @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+iR @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+d$ @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+lO @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+lN @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+lv @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+i @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90 💡 Using smart fallback for: Best Anime films

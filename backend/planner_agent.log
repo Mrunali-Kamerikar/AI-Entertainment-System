@@ -1,0 +1,181 @@
+2026-04-23 09:56:01,820 - PlannerAgent - INFO - Calling LLM (gemini-1.5-flash, Attempt 1)
+2026-04-23 09:56:01,821 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:56:02,056 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 09:56:02,058 - PlannerAgent - INFO - Calling LLM (gemini-1.5-flash-8b, Attempt 2)
+2026-04-23 09:56:02,058 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:56:02,308 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 09:56:02,312 - PlannerAgent - INFO - Calling LLM (gemini-2.0-flash, Attempt 3)
+2026-04-23 09:56:02,313 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:56:02,494 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-04-23 09:56:05,496 - PlannerAgent - INFO - Calling LLM (gemini-1.5-pro, Attempt 4)
+2026-04-23 09:56:05,496 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:56:05,618 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 09:56:05,619 - PlannerAgent - INFO - Calling LLM (gemini-2.0-flash-lite-preview-02-05, Attempt 5)
+2026-04-23 09:56:05,619 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:56:05,934 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite-preview-02-05:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 09:56:05,936 - PlannerAgent - INFO - Calling LLM (gemini-flash-latest, Attempt 6)
+2026-04-23 09:56:05,936 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:56:34,180 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
+2026-04-23 09:56:34,185 - PlannerAgent - INFO - Calling LLM (gemini-1.5-flash, Attempt 1)
+2026-04-23 09:56:34,185 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:56:34,326 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 09:56:34,326 - PlannerAgent - INFO - Calling LLM (gemini-1.5-flash-8b, Attempt 2)
+2026-04-23 09:56:34,326 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:56:34,626 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 09:56:34,627 - PlannerAgent - INFO - Calling LLM (gemini-2.0-flash, Attempt 3)
+2026-04-23 09:56:34,627 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:56:34,781 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-04-23 09:56:37,783 - PlannerAgent - INFO - Calling LLM (gemini-1.5-pro, Attempt 4)
+2026-04-23 09:56:37,784 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:56:37,913 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 09:56:37,915 - PlannerAgent - INFO - Calling LLM (gemini-2.0-flash-lite-preview-02-05, Attempt 5)
+2026-04-23 09:56:37,915 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:56:38,216 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite-preview-02-05:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 09:56:38,217 - PlannerAgent - INFO - Calling LLM (gemini-flash-latest, Attempt 6)
+2026-04-23 09:56:38,217 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:56:59,797 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
+2026-04-23 09:56:59,803 - PlannerAgent - INFO - Calling LLM (gemini-1.5-flash, Attempt 1)
+2026-04-23 09:56:59,803 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:56:59,933 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 09:56:59,934 - PlannerAgent - INFO - Calling LLM (gemini-1.5-flash-8b, Attempt 2)
+2026-04-23 09:56:59,935 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:57:00,222 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 09:57:00,223 - PlannerAgent - INFO - Calling LLM (gemini-2.0-flash, Attempt 3)
+2026-04-23 09:57:00,224 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:57:00,356 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-04-23 09:57:03,357 - PlannerAgent - INFO - Calling LLM (gemini-1.5-pro, Attempt 4)
+2026-04-23 09:57:03,357 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:57:03,517 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 09:57:03,519 - PlannerAgent - INFO - Calling LLM (gemini-2.0-flash-lite-preview-02-05, Attempt 5)
+2026-04-23 09:57:03,519 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:57:03,810 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite-preview-02-05:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 09:57:03,811 - PlannerAgent - INFO - Calling LLM (gemini-flash-latest, Attempt 6)
+2026-04-23 09:57:03,811 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:57:16,443 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
+2026-04-23 09:57:17,530 - PlannerAgent - INFO - Calling LLM (gemini-1.5-flash, Attempt 1)
+2026-04-23 09:57:17,530 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:57:17,713 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 09:57:17,715 - PlannerAgent - INFO - Calling LLM (gemini-1.5-flash-8b, Attempt 2)
+2026-04-23 09:57:17,716 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:57:18,008 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 09:57:18,009 - PlannerAgent - INFO - Calling LLM (gemini-2.0-flash, Attempt 3)
+2026-04-23 09:57:18,010 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:57:18,135 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-04-23 09:57:21,136 - PlannerAgent - INFO - Calling LLM (gemini-1.5-pro, Attempt 4)
+2026-04-23 09:57:21,137 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:57:21,269 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 09:57:21,310 - PlannerAgent - INFO - Calling LLM (gemini-2.0-flash-lite-preview-02-05, Attempt 5)
+2026-04-23 09:57:21,311 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:57:21,540 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite-preview-02-05:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 09:57:21,541 - PlannerAgent - INFO - Calling LLM (gemini-flash-latest, Attempt 6)
+2026-04-23 09:57:21,541 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:57:37,823 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
+2026-04-23 09:57:37,830 - PlannerAgent - INFO - Calling LLM (gemini-1.5-flash, Attempt 1)
+2026-04-23 09:57:37,831 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:57:37,961 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 09:57:37,962 - PlannerAgent - INFO - Calling LLM (gemini-1.5-flash-8b, Attempt 2)
+2026-04-23 09:57:37,963 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:57:38,254 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 09:57:38,255 - PlannerAgent - INFO - Calling LLM (gemini-2.0-flash, Attempt 3)
+2026-04-23 09:57:38,255 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:57:38,407 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-04-23 09:57:41,412 - PlannerAgent - INFO - Calling LLM (gemini-1.5-pro, Attempt 4)
+2026-04-23 09:57:41,413 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:57:42,321 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 09:57:42,322 - PlannerAgent - INFO - Calling LLM (gemini-2.0-flash-lite-preview-02-05, Attempt 5)
+2026-04-23 09:57:42,322 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:57:42,737 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite-preview-02-05:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 09:57:42,738 - PlannerAgent - INFO - Calling LLM (gemini-flash-latest, Attempt 6)
+2026-04-23 09:57:42,739 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:58:09,361 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
+2026-04-23 09:58:09,370 - PlannerAgent - INFO - Calling LLM (gemini-1.5-flash, Attempt 1)
+2026-04-23 09:58:09,370 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:58:09,513 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 09:58:09,514 - PlannerAgent - INFO - Calling LLM (gemini-1.5-flash-8b, Attempt 2)
+2026-04-23 09:58:09,514 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:58:09,801 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 09:58:09,802 - PlannerAgent - INFO - Calling LLM (gemini-2.0-flash, Attempt 3)
+2026-04-23 09:58:09,803 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:58:09,960 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-04-23 09:58:12,961 - PlannerAgent - INFO - Calling LLM (gemini-1.5-pro, Attempt 4)
+2026-04-23 09:58:12,962 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:58:13,100 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 09:58:13,101 - PlannerAgent - INFO - Calling LLM (gemini-2.0-flash-lite-preview-02-05, Attempt 5)
+2026-04-23 09:58:13,101 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:58:13,383 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite-preview-02-05:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 09:58:13,385 - PlannerAgent - INFO - Calling LLM (gemini-flash-latest, Attempt 6)
+2026-04-23 09:58:13,385 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 09:58:23,879 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
+2026-04-23 11:08:52,689 - PlannerAgent - INFO - Initialized 2 API clients for rotation.
+2026-04-23 11:08:52,689 - PlannerAgent - INFO - Pass 1: Generating initial plan for: promote a movie in one day at 8 places
+2026-04-23 11:08:52,689 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-1.5-flash, Attempt 1)
+2026-04-23 11:08:52,690 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 11:08:52,940 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 11:08:52,942 - PlannerAgent - INFO - Calling LLM (Key Index 1, Model gemini-1.5-flash, Attempt 2)
+2026-04-23 11:08:52,942 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 11:08:53,139 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 11:08:53,141 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-1.5-flash-8b, Attempt 3)
+2026-04-23 11:08:53,141 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 11:08:53,292 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 11:08:53,293 - PlannerAgent - INFO - Calling LLM (Key Index 1, Model gemini-1.5-flash-8b, Attempt 4)
+2026-04-23 11:08:53,294 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 11:08:53,438 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 11:08:53,439 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-2.0-flash, Attempt 5)
+2026-04-23 11:08:53,440 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 11:08:53,582 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-04-23 11:08:53,583 - PlannerAgent - WARNING - Quota exhausted for key 0 with model gemini-2.0-flash. Rotating...
+2026-04-23 11:08:53,583 - PlannerAgent - INFO - Calling LLM (Key Index 1, Model gemini-2.0-flash, Attempt 6)
+2026-04-23 11:08:53,583 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 11:08:53,816 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-04-23 11:08:53,817 - PlannerAgent - WARNING - Quota exhausted for key 1 with model gemini-2.0-flash. Rotating...
+2026-04-23 11:08:56,817 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-1.5-pro, Attempt 7)
+2026-04-23 11:08:56,818 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 11:08:56,952 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 11:08:56,954 - PlannerAgent - INFO - Calling LLM (Key Index 1, Model gemini-1.5-pro, Attempt 8)
+2026-04-23 11:08:56,954 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 11:08:57,118 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 11:08:57,164 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-2.0-flash-lite-preview-02-05, Attempt 9)
+2026-04-23 11:08:57,165 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 11:08:57,301 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite-preview-02-05:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 11:08:57,302 - PlannerAgent - INFO - Calling LLM (Key Index 1, Model gemini-2.0-flash-lite-preview-02-05, Attempt 10)
+2026-04-23 11:08:57,302 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 11:08:58,159 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite-preview-02-05:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 11:08:58,161 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-flash-latest, Attempt 11)
+2026-04-23 11:08:58,161 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 11:09:10,079 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
+2026-04-23 11:09:10,086 - PlannerAgent - INFO - Pass 2: Optimizing plan...
+2026-04-23 11:09:10,086 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-1.5-flash, Attempt 1)
+2026-04-23 11:09:10,086 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 11:09:10,303 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 11:09:10,305 - PlannerAgent - INFO - Calling LLM (Key Index 1, Model gemini-1.5-flash, Attempt 2)
+2026-04-23 11:09:10,305 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 11:09:14,384 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 11:09:14,385 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-1.5-flash-8b, Attempt 3)
+2026-04-23 11:09:14,385 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 11:09:14,545 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 11:09:14,545 - PlannerAgent - INFO - Calling LLM (Key Index 1, Model gemini-1.5-flash-8b, Attempt 4)
+2026-04-23 11:09:14,545 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 11:09:16,418 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 11:09:16,420 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-2.0-flash, Attempt 5)
+2026-04-23 11:09:16,420 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 11:09:16,593 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-04-23 11:09:16,595 - PlannerAgent - WARNING - Quota exhausted for key 0 with model gemini-2.0-flash. Rotating...
+2026-04-23 11:09:16,595 - PlannerAgent - INFO - Calling LLM (Key Index 1, Model gemini-2.0-flash, Attempt 6)
+2026-04-23 11:09:16,595 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 11:09:16,758 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-04-23 11:09:16,759 - PlannerAgent - WARNING - Quota exhausted for key 1 with model gemini-2.0-flash. Rotating...
+2026-04-23 11:09:19,760 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-1.5-pro, Attempt 7)
+2026-04-23 11:09:19,761 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 11:09:19,931 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 11:09:19,931 - PlannerAgent - INFO - Calling LLM (Key Index 1, Model gemini-1.5-pro, Attempt 8)
+2026-04-23 11:09:19,931 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 11:09:20,089 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 11:09:20,089 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-2.0-flash-lite-preview-02-05, Attempt 9)
+2026-04-23 11:09:20,090 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 11:09:20,236 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite-preview-02-05:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 11:09:20,237 - PlannerAgent - INFO - Calling LLM (Key Index 1, Model gemini-2.0-flash-lite-preview-02-05, Attempt 10)
+2026-04-23 11:09:20,237 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 11:09:20,456 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite-preview-02-05:generateContent "HTTP/1.1 404 Not Found"
+2026-04-23 11:09:20,457 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-flash-latest, Attempt 11)
+2026-04-23 11:09:20,457 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-23 11:09:36,376 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"

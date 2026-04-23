@@ -1,0 +1,13 @@
+google-genai
+faiss-cpu
+sentence-transformers
+pydantic
+python-dotenv
+numpy
+fastapi
+uvicorn
+python-multipart
+cors
+langchain
+langchain-google-genai
+langchain-core

@@ -1,0 +1,192 @@
+VM1443 AI-Entertainment-Recommendation-Frontend:4 Running frontend commit 949bcfe12f714425cbbb78eb163bdd3dc59d6dc1
+vendor-core-83c17265f2588e9e.min.js.br:54 Statsig is not ready to log exposures, will retry in 1 seconds
+(anonymous) @ vendor-core-83c17265f2588e9e.min.js.br:54
+vendor-core-83c17265f2588e9e.min.js.br:54 Loaded 35 scripts (5957612b), 35 from cache (5957612b)
+vendor-core-83c17265f2588e9e.min.js.br:54 [bootstrap_waiting_on_user_state] You appear to be logging a relative timestamp and not an epoch timestamp. Try adding performance.timeOrigin to the timestamp.
+(anonymous) @ vendor-core-83c17265f2588e9e.min.js.br:54
+vendor-core-83c17265f2588e9e.min.js.br:54 [import] git: 928aa3d9ac236592109160a5bd7bc0096da811d3, stamp: 3CC11CE07EEBCE56
+(index):1  Failed to load resource: net::ERR_FAILED
+vendor-core-83c17265f2588e9e.min.js.br:54 Autosave Changes not available or already claimed by another tab undefined
+9309-c7b930bd1a4cc50f.min.js.br:7 The powerPreference option is currently ignored when calling requestAdapter() on Windows. See https://crbug.com/369219127
+initialize @ 9309-c7b930bd1a4cc50f.min.js.br:7
+vendor-core-83c17265f2588e9e.min.js.br:54 [Fullscreen] Booting... (emscripten version 4.0.21)
+vendor-core-83c17265f2588e9e.min.js.br:54 [GPU] graphicsAPI:"WebGPU", vendor:"Google Inc. (Intel)" renderer:"ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A6) Direct3D11 vs_5_0 ps_5_0, D3D11)" deviceArchitecture:"gen-12lp" deviceDescription:"" webGPUDevice:"" webGPUVendor:"intel" bindings:"emdawnwebgpu"
+vendor-core-83c17265f2588e9e.min.js.br:54 [Fullscreen] Ready in 524.9ms
+vendor-core-83c17265f2588e9e.min.js.br:54 [FullscreenApp] calling setEditorTheme and setting preference dark
+vendor-core-83c17265f2588e9e.min.js.br:54 [MultiplayerSession] connecting to wss://www.figma.com/api/multiplayer/SkSM9vm26lOhGsFI18aHed?role=editor&tracking_session_id=2je267TannQ0FVed&version=151&recentReload=0&file-load-streaming-compression&user-id=1606202761286027030&client_release=949bcfe12f714425cbbb78eb163bdd3dc59d6dc1
+vendor-core-83c17265f2588e9e.min.js.br:54 [FullscreenApp] calling setEditorTheme and setting preference dark
+f1cb0a108b35713614332c7c219352b8.js:36 credits 1773764432 1773764211 -221 true
+vendor-core-83c17265f2588e9e.min.js.br:54 [MultiplayerSession] Joining file version 106 (initial load)
+vendor-core-83c17265f2588e9e.min.js.br:54 Migration succeeded: context: fullscreen_migrate_SceneGraphManager, version: 106, duration: 0ms.
+vendor-core-83c17265f2588e9e.min.js.br:54 [Fullscreen] loadtime=5.94s maxmem=22961432
+vendor-core-83c17265f2588e9e.min.js.br:54 [devtools] Initialized LS
+vendor-core-83c17265f2588e9e.min.js.br:54 [devtools] Initialized LS
+/api/make/SkSM9vm26lOhGsFI18aHed/cached_preview_urls?source_code_hash=046fcfc8a40a5a147bafa30380d29e4dfba7271b:1  Failed to load resource: the server responded with a status of 404 ()
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90 🎬 Loading movies from TMDB API...
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90 🔍 Checking TMDB API availability...
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90 🔥 Loading trending movies from TMDB API...
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90 🎬 CineVerse 🌐 LIVE API MODE
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90 ✅ App connected to TMDB API - Loading live movie data
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90 💡 This app works for all collaborators - no environment setup required!
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90 ⚠️ TMDB API check timed out - using mock data
+(anonymous) @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+r @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:17
+warn @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+(anonymous) @ tmdb.ts:83
+await in (anonymous)
+checkTMDBAvailability @ tmdb.ts:93
+fetchBollywoodMovies @ tmdb.ts:253
+loadAllIndustryMovies @ dataLoader.ts:58
+loadMovies @ AppContext.tsx:241
+(anonymous) @ AppContext.tsx:281
+TN @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+T8 @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+T7 @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+T6 @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+T4 @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+S1 @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+SQ @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+(anonymous) @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+(anonymous) @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:65
+V @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:61
+B @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:61
+eo @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:61
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90 📦 TMDB unavailable - using mock trending data
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90 📦 TMDB unavailable - using mock movie data
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90 ✅ Context loaded 15 trending movies
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90 ✅ Context loaded 31 movies
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90  POST http://localhost:8000/login net::ERR_CONNECTION_REFUSED
+(anonymous) @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+loginUser @ backend.ts:22
+(anonymous) @ AppContext.tsx:130
+handleDemo @ Login.tsx:106
+y @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+i @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+ik @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+ij @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+iz @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+dP @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dM @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dG @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dk @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+(anonymous) @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+SR @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+iR @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+d$ @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+lO @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+lN @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+lv @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+i @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90  POST http://localhost:8000/recommend net::ERR_CONNECTION_REFUSED
+(anonymous) @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+getRecommendations @ backend.ts:49
+(anonymous) @ AppContext.tsx:144
+handleSearch @ SearchBar.tsx:42
+handleKeyDown @ SearchBar.tsx:48
+y @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+i @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+ik @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+ij @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+iz @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+dP @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dM @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dG @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dk @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+(anonymous) @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+SR @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+iR @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+d$ @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+lO @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+lN @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+lv @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+i @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90  POST http://localhost:8000/recommend net::ERR_CONNECTION_REFUSED
+(anonymous) @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+getRecommendations @ backend.ts:49
+(anonymous) @ AppContext.tsx:144
+handleSearch @ SearchBar.tsx:42
+handleKeyDown @ SearchBar.tsx:48
+y @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+i @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+ik @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+ij @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+iz @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+dP @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dM @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dG @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dk @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+(anonymous) @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+SR @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+iR @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+d$ @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+lO @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+lN @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+lv @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+i @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90  POST http://localhost:8000/recommend net::ERR_CONNECTION_REFUSED
+(anonymous) @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+getRecommendations @ backend.ts:49
+(anonymous) @ AppContext.tsx:144
+handleSearch @ SearchBar.tsx:42
+handleKeyDown @ SearchBar.tsx:48
+y @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+i @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+ik @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+ij @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+iz @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+dP @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dM @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dG @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dk @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+(anonymous) @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+SR @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+iR @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+d$ @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+lO @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+lN @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+lv @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+i @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90  GET http://localhost:8000/summary/19996 net::ERR_CONNECTION_REFUSED
+(anonymous) @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+getMovieSummary @ backend.ts:67
+loadTabData @ MovieModal.tsx:88
+onClick @ MovieModal.tsx:304
+y @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+i @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+ik @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+ij @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+iz @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+dP @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dM @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dG @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dk @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+(anonymous) @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+SR @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+iR @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+d$ @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+lO @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+lN @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+lv @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+i @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+code_components_preview_iframe-cbd00381eef096cb.min.js.br:90  GET http://localhost:8000/review/19996 net::ERR_CONNECTION_REFUSED
+(anonymous) @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+getMovieReviews @ backend.ts:89
+loadTabData @ MovieModal.tsx:100
+onClick @ MovieModal.tsx:304
+y @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+i @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
+ik @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+ij @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+iz @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+dP @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dM @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dG @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+dk @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+(anonymous) @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+SR @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+iR @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+d$ @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:37
+lO @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+lN @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+lv @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:25
+i @ code_components_preview_iframe-cbd00381eef096cb.min.js.br:90
