@@ -70,19 +70,11 @@ if (isDevelopment) {
       if (response.ok) {
         console.log('%c✅ TMDB API: Connected successfully!', 'color: #4CAF50; font-weight: bold;');
       } else {
-        console.warn(`%c⚠️ TMDB API: Error ${response.status} ${response.statusText}`, 'color: #FF9800; font-weight: bold;');
-        console.warn('Check your API key at https://www.themoviedb.org/settings/api');
+        console.warn(`%c⚠️ TMDB API: Status ${response.status}`, 'color: #FF9800; font-weight: bold;');
       }
     })
-    .catch(error => {
-      console.error('%c❌ TMDB API: Connection failed!', 'color: #F44336; font-weight: bold;');
-      console.error('Error:', error.message);
-      console.warn('This may be due to:');
-      console.warn('1. Network/firewall blocking external APIs');
-      console.warn('2. CORS issues (if running on non-localhost domain)');
-      console.warn('3. Invalid API key');
-      console.warn('4. TMDB service temporarily down');
-      console.warn('→ The app will use sample data as fallback');
+    .catch(() => {
+      console.log('%cℹ️ TMDB API: Connectivity test skipped (offline or blocked)', 'color: #888;');
     });
 }
 

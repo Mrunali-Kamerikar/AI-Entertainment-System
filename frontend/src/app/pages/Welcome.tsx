@@ -1,8 +1,9 @@
 import { useRef, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Film, Sparkles, TrendingUp, Brain, LogIn, UserPlus } from 'lucide-react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { CineVerseLogo } from '../components/CineVerseLogo';
+import { useApp } from '../context/AppContext';
 
 // Particle animation background
 const ParticleBackground: React.FC = () => {
@@ -75,6 +76,18 @@ const ParticleBackground: React.FC = () => {
 };
 
 export const Welcome: React.FC = () => {
+  const navigate = useNavigate();
+  const { enterDemoMode, user } = useApp();
+
+  const handleGetStarted = () => {
+    navigate('/signup');
+  };
+
+  const handleDemo = () => {
+    enterDemoMode();
+    navigate('/dashboard');
+  };
+
   return (
     <div
       style={{
@@ -303,31 +316,29 @@ export const Welcome: React.FC = () => {
           </div>
 
           {/* Demo account */}
-          <Link to="/login?demo=true">
-            <motion.button
-              whileHover={{ scale: 1.01 }}
-              whileTap={{ scale: 0.99 }}
-              style={{
-                width: '100%',
-                background: 'transparent',
-                border: '1px solid rgba(255,255,255,0.1)',
-                borderRadius: 10,
-                padding: '12px',
-                color: '#888',
-                fontWeight: 600,
-                fontSize: '0.9rem',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 8,
-                transition: 'all 0.2s',
-              }}
-            >
-              <Film size={16} />
-              Try Demo Account
-            </motion.button>
-          </Link>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleDemo}
+            style={{
+              width: '100%',
+              padding: '16px 32px',
+              background: 'rgba(255, 255, 255, 0.05)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              borderRadius: '12px',
+              color: '#fff',
+              fontSize: '1rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+            }}
+          >
+            <Brain size={20} color="#E50914" />
+            Try Demo Account
+          </motion.button>
         </motion.div>
 
         {/* Footer note */}

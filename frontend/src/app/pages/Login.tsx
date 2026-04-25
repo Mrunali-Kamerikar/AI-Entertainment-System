@@ -84,9 +84,9 @@ const ParticleBackground: React.FC = () => {
 };
 
 export const Login: React.FC = () => {
-  const { login, user } = useApp();
+  const { login, user, enterDemoMode } = useApp();
   const navigate = useNavigate();
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPwd, setShowPwd] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
@@ -94,121 +94,64 @@ export const Login: React.FC = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [focusedField, setFocusedField] = useState<string | null>(null);
-  const [showReturningUser, setShowReturningUser] = useState(false);
-  const [returningUsername, setReturningUsername] = useState<string | null>(null);
   const [searchParams] = useSearchParams();
 
-  // Redirect if already logged in
+  // Returning user states
+  const [showReturningUser, setShowReturningUser] = useState(false);
+  const [returningUsername, setReturningUsername] = useState<string | null>(null);
+
+  // Initialize returning user state
   useEffect(() => {
-    if (user) {
-      const target = searchParams.get('redirect') || '/dashboard';
-      console.log(`🚀 User authenticated, navigating to ${target}...`);
-      const timer = setTimeout(() => navigate(target), 800);
-      return () => clearTimeout(timer);
-    }
-  }, [user, navigate, searchParams]);
-
-  // Check for active session and remembered username on mount
-  useEffect(() => {
-    if (user) return; // Don't run auto-login if already logged in
-
-    const activeSession = getSession();
-    if (activeSession) {
-      // User has active session, auto-login
-      console.log('🔐 Active session detected - auto-logging in...');
-      setSuccess(`Welcome back, ${activeSession.username}!`);
-      setTimeout(() => {
-        login(activeSession.username, 'auto-login').catch(err => {
-          console.error('Auto-login failed:', err);
-          setError('Auto-login failed. Please sign in manually.');
-          setSuccess('');
-        });
-      }, 1000);
-      return;
-    }
-
-    // Check for remembered username
     const remembered = getRememberedUsername();
     if (remembered) {
       setReturningUsername(remembered);
-      setUsername(remembered);
-      setRememberMe(true);
       setShowReturningUser(true);
+      setEmail(remembered);
+      setRememberMe(true);
     }
-  }, [login, user]);
+  }, []);
 
+  const handleContinueAsUser = () => {
+    setShowReturningUser(false);
+  };
+
+  const handleDifferentUser = () => {
+    setShowReturningUser(false);
+    setReturningUsername(null);
+    setEmail('');
+    setRememberMe(false);
+    forgetUsername();
+  };
+
+  // We are NOT auto-redirecting to dashboard here to satisfy the user's request
+  // of showing the sign-in/sign-up page first.
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!username.trim()) { setError('Please enter your username'); return; }
+    if (!email.trim()) { setError('Please enter your email'); return; }
     if (!password.trim()) { setError('Please enter your password'); return; }
     
     setError('');
     setIsLoading(true);
 
     try {
-      // Perform login
-      await login(username, password);
-      
-      // Handle "Remember Me"
+      await login(email, password);
       if (rememberMe) {
-        rememberUsername(username);
+        rememberUsername(email);
       } else {
         forgetUsername();
       }
-      
-      // Create session with appropriate expiry
-      const userId = `user_${username.toLowerCase().replace(/\s/g, '_')}`;
-      createSession(username, userId, rememberMe);
-      
-      // Store user data (simulates server-side database)
-      storeUserData(username, userId);
-      
-      // Show success message
       setSuccess('Login successful!');
-      
-      // Navigation is handled by the useEffect watching 'user' state
-    } catch {
-      setError('Invalid username or password');
+    } catch (err: any) {
+      setError(err.message || 'Invalid email or password');
       setIsLoading(false);
     }
-  };
-
-  const handleContinueAsUser = async () => {
-    if (!returningUsername) return;
-    setUsername(returningUsername);
-    setPassword(''); // User still needs to enter password
-    setShowReturningUser(false);
-    // Focus password field
-    setTimeout(() => {
-      const pwdInput = document.querySelector('input[type="password"]') as HTMLInputElement;
-      pwdInput?.focus();
-    }, 100);
-  };
-
-  const handleDifferentUser = () => {
-    setShowReturningUser(false);
-    setReturningUsername(null);
-    setUsername('');
-    forgetUsername();
-    setRememberMe(false);
   };
 
   const handleDemo = async () => {
-    setIsLoading(true);
-    setError('');
-    try {
-      await login('CinemaFan', 'demo');
-      
-      // Create demo session
-      createSession('CinemaFan', 'user_cinemafan', false);
-      storeUserData('CinemaFan', 'user_cinemafan');
-      
-      setSuccess('Demo account loaded!');
-      // Navigation is handled by the useEffect watching 'user' state
-    } catch {
-      setError('Demo login failed');
-      setIsLoading(false);
-    }
+    enterDemoMode();
+    setSuccess('Demo mode activated!');
+    setTimeout(() => navigate('/dashboard'), 1000);
   };
 
   // If showing success (auto-login), show welcome screen
@@ -310,6 +253,40 @@ export const Login: React.FC = () => {
             <CineVerseLogo size={50} variant="full" />
           </motion.div>
         </div>
+
+        {/* Already Logged In Note */}
+        {user && !success && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            style={{
+              background: 'rgba(229,9,20,0.1)',
+              border: '1px solid rgba(229,9,20,0.3)',
+              borderRadius: 12,
+              padding: '12px 16px',
+              marginBottom: 24,
+              textAlign: 'center'
+            }}
+          >
+            <p style={{ color: '#fff', fontSize: '0.9rem', margin: '0 0 8px' }}>
+              You are already logged in as <strong>{user.username}</strong>
+            </p>
+            <Link 
+              to="/dashboard" 
+              style={{ 
+                color: '#E50914', 
+                fontSize: '0.85rem', 
+                fontWeight: 700, 
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 4
+              }}
+            >
+              Go to Dashboard →
+            </Link>
+          </motion.div>
+        )}
 
         {/* Returning User Quick Login */}
         <AnimatePresence mode="wait">
@@ -417,30 +394,29 @@ export const Login: React.FC = () => {
         </AnimatePresence>
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-          {/* Username */}
+          {/* Email */}
           <div>
             <label style={{ color: '#888', fontSize: '0.78rem', display: 'block', marginBottom: 6 }}>
-              Username
+              Email Address
             </label>
             <motion.div
-              animate={{ boxShadow: focusedField === 'username' ? '0 0 0 2px rgba(229,9,20,0.35)' : '0 0 0 1px rgba(255,255,255,0.08)' }}
+              animate={{ boxShadow: focusedField === 'email' ? '0 0 0 2px rgba(229,9,20,0.35)' : '0 0 0 1px rgba(255,255,255,0.08)' }}
               style={{ borderRadius: 10, overflow: 'hidden' }}
             >
               <input
-                value={username}
-                onChange={e => setUsername(e.target.value)}
-                onFocus={() => setFocusedField('username')}
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                onFocus={() => setFocusedField('email')}
                 onBlur={() => setFocusedField(null)}
-                placeholder="Enter your username"
-                autoComplete="username"
-                disabled={showReturningUser}
+                placeholder="your@email.com"
+                autoComplete="email"
                 style={{
                   width: '100%', padding: '12px 14px',
-                  background: showReturningUser ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.05)',
+                  background: 'rgba(255,255,255,0.05)',
                   border: 'none',
                   color: '#fff', fontSize: '0.9rem', outline: 'none',
                   boxSizing: 'border-box',
-                  cursor: showReturningUser ? 'not-allowed' : 'text',
                 }}
               />
             </motion.div>

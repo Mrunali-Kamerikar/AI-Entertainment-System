@@ -157,7 +157,7 @@ export const ForgotPassword: React.FC = () => {
             style={{ marginTop: 24 }}
           >
             <Link
-              to="/"
+              to="/login"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -229,7 +229,7 @@ export const ForgotPassword: React.FC = () => {
       >
         {/* Back button */}
         <Link
-          to="/"
+          to="/login"
           style={{
             display: 'inline-flex',
             alignItems: 'center',

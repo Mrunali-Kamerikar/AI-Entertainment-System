@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Play, Plus, ThumbsUp, Star, Clock, Calendar, Brain } from 'lucide-react';
+import { X, Play, Plus, ThumbsUp, Star, Clock, Calendar, Brain, AlertCircle } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { StarRating } from './StarRating';
 import { AIScoreBreakdown } from './AIScoreBreakdown';
@@ -14,7 +14,11 @@ import { generateMovieSummaryWithGemini } from '../services/geminiService';
 type ModalTab = 'overview' | 'summary' | 'reviews' | 'similar';
 
 export const MovieModal: React.FC = () => {
-  const { selectedMovie, setSelectedMovie, userRatings, submitRating, allMovies } = useApp();
+  const { 
+    selectedMovie, setSelectedMovie, userRatings, submitRating, allMovies,
+    toggleWatchlist, toggleFavorite, isInWatchlist, isFavorite,
+    engagementError, clearEngagementError
+  } = useApp();
   const [activeTab, setActiveTab] = useState<ModalTab>('overview');
   const [summary, setSummary] = useState<Record<string, unknown> | null>(null);
   const [reviews, setReviews] = useState<Record<string, unknown> | null>(null);
@@ -311,25 +315,29 @@ export const MovieModal: React.FC = () => {
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
+              onClick={() => toggleWatchlist(movie)}
               style={{
-                background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)',
+                background: isInWatchlist(movie.id) ? 'rgba(229,9,20,0.2)' : 'rgba(255,255,255,0.1)',
+                border: isInWatchlist(movie.id) ? '1px solid #E50914' : '1px solid rgba(255,255,255,0.2)',
                 borderRadius: 8, padding: '10px 20px',
                 display: 'flex', alignItems: 'center', gap: 8,
-                color: '#fff', cursor: 'pointer', fontSize: '0.9rem',
+                color: isInWatchlist(movie.id) ? '#E50914' : '#fff', cursor: 'pointer', fontSize: '0.9rem',
               }}
             >
-              <Plus size={16} /> My List
+              <Plus size={16} /> {isInWatchlist(movie.id) ? 'Added' : 'My List'}
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.1 }}
+              onClick={() => toggleFavorite(movie.id)}
               style={{
-                background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)',
+                background: isFavorite(movie.id) ? 'rgba(229,9,20,0.2)' : 'rgba(255,255,255,0.1)',
+                border: isFavorite(movie.id) ? '1px solid #E50914' : '1px solid rgba(255,255,255,0.2)',
                 borderRadius: '50%', width: 40, height: 40,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                cursor: 'pointer', color: '#fff',
+                display: 'flex', alignItems: 'center', justifyCenter: 'center',
+                cursor: 'pointer', color: isFavorite(movie.id) ? '#E50914' : '#fff',
               }}
             >
-              <ThumbsUp size={16} />
+              <ThumbsUp size={16} fill={isFavorite(movie.id) ? '#E50914' : 'none'} />
             </motion.button>
             <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 8 }}>
               <span style={{ color: '#888', fontSize: '0.82rem' }}>Your rating:</span>
@@ -341,6 +349,43 @@ export const MovieModal: React.FC = () => {
               />
             </div>
           </div>
+
+          {/* Engagement Error Notification (Demo Mode) */}
+          <AnimatePresence>
+            {engagementError && (
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                style={{
+                  margin: '16px 24px 0',
+                  padding: '12px 16px',
+                  background: 'rgba(229,9,20,0.1)',
+                  border: '1px solid rgba(229,9,20,0.3)',
+                  borderRadius: 12,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <AlertCircle size={18} color="#E50914" />
+                  <p style={{ color: '#fff', fontSize: '0.85rem', margin: 0 }}>
+                    {engagementError}
+                  </p>
+                </div>
+                <button
+                  onClick={clearEngagementError}
+                  style={{
+                    background: 'none', border: 'none', color: '#888',
+                    cursor: 'pointer', padding: 4
+                  }}
+                >
+                  <X size={14} />
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Tabs */}
           <div style={{ padding: '0 24px', marginTop: 16 }}>

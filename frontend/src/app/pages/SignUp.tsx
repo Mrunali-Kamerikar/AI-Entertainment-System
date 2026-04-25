@@ -95,7 +95,7 @@ const getPasswordStrength = (pwd: string): { strength: number; label: string; co
 };
 
 export const SignUp: React.FC = () => {
-  const { login } = useApp();
+  const { signup, enterDemoMode, user } = useApp();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
@@ -108,6 +108,11 @@ export const SignUp: React.FC = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [focusedField, setFocusedField] = useState<string | null>(null);
+
+  // If already logged in, we still stay on SignUp if that's what the user wants,
+  // but usually we redirect. However, to satisfy the user's request of 
+  // "sign up page should appear first", we will NOT auto-redirect to dashboard here.
+  // This allows them to see the sign-up page as requested.
 
   const passwordStrength = password ? getPasswordStrength(password) : null;
   const passwordsMatch = password && confirmPassword && password === confirmPassword;
@@ -129,49 +134,19 @@ export const SignUp: React.FC = () => {
     setIsLoading(true);
 
     try {
-      // Simulate user registration
-      // In production: POST /signup to backend
-      await new Promise(resolve => setTimeout(resolve, 1200));
-
-      // Check if user already exists (simulated)
-      const existingUsers = localStorage.getItem('cineverse_user_data');
-      if (existingUsers) {
-        const users = JSON.parse(existingUsers);
-        if (users.some((u: { username: string }) => u.username.toLowerCase() === username.toLowerCase())) {
-          setError('Username already exists. Please choose another one.');
-          setIsLoading(false);
-          return;
-        }
-      }
-
-      // Create user account
-      const userId = `user_${username.toLowerCase().replace(/\s/g, '_')}`;
-      
-      // Store user data (simulates backend database)
-      storeUserData(username, userId);
-
-      // Handle "Remember Me"
-      if (rememberMe) {
-        rememberUsername(username);
-      } else {
-        forgetUsername();
-      }
-
-      // Create session
-      createSession(username, userId, rememberMe);
-
-      // Auto-login after signup
-      await login(username, password);
-
-      // Show success
+      await signup(email, username, password);
       setSuccess('Account created successfully!');
-
-      // Navigate to dashboard
       setTimeout(() => navigate('/dashboard'), 1000);
-    } catch (err) {
-      setError('Signup failed. Please try again.');
+    } catch (err: any) {
+      setError(err.message || 'Signup failed. Please try again.');
       setIsLoading(false);
     }
+  };
+
+  const handleDemo = async () => {
+    enterDemoMode();
+    setSuccess('Demo mode activated!');
+    setTimeout(() => navigate('/dashboard'), 1000);
   };
 
   // If success, show success screen
@@ -262,7 +237,7 @@ export const SignUp: React.FC = () => {
         }}
       >
         {/* Logo */}
-        <div style={{ textAlign: 'center', marginBottom: 28 }}>
+        <div style={{ textAlign: 'center', marginBottom: 32 }}>
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -272,6 +247,40 @@ export const SignUp: React.FC = () => {
             <CineVerseLogo size={50} variant="full" />
           </motion.div>
         </div>
+
+        {/* Already Logged In Note */}
+        {user && !success && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            style={{
+              background: 'rgba(229,9,20,0.1)',
+              border: '1px solid rgba(229,9,20,0.3)',
+              borderRadius: 12,
+              padding: '12px 16px',
+              marginBottom: 24,
+              textAlign: 'center'
+            }}
+          >
+            <p style={{ color: '#fff', fontSize: '0.9rem', margin: '0 0 8px' }}>
+              You are already logged in as <strong>{user.username}</strong>
+            </p>
+            <Link 
+              to="/dashboard" 
+              style={{ 
+                color: '#E50914', 
+                fontSize: '0.85rem', 
+                fontWeight: 700, 
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 4
+              }}
+            >
+              Go to Dashboard →
+            </Link>
+          </motion.div>
+        )}
 
         <h2 style={{ color: '#fff', margin: '0 0 6px', textAlign: 'center', fontSize: '1.15rem' }}>
           Create Your Account
@@ -564,10 +573,32 @@ export const SignUp: React.FC = () => {
         {/* Sign in link */}
         <p style={{ textAlign: 'center', marginTop: 20, fontSize: '0.85rem', color: '#666' }}>
           Already have an account?{' '}
-          <Link to="/" style={{ color: '#E50914', textDecoration: 'none', fontWeight: 600 }}>
+          <Link to="/login" style={{ color: '#E50914', textDecoration: 'none', fontWeight: 600 }}>
             Sign In
           </Link>
         </p>
+
+        {/* Demo Account Option */}
+        <div style={{ marginTop: 24, textAlign: 'center' }}>
+          <p style={{ color: '#888', fontSize: '0.85rem', marginBottom: 12 }}>Just want to explore?</p>
+          <motion.button
+            whileHover={{ scale: 1.02, backgroundColor: 'rgba(255,255,255,0.08)' }}
+            whileTap={{ scale: 0.98 }}
+            onClick={handleDemo}
+            style={{
+              width: '100%', padding: '12px',
+              background: 'rgba(255,255,255,0.04)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: 10,
+              color: '#fff', fontSize: '0.9rem', fontWeight: 600,
+              cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8
+            }}
+          >
+            <Brain size={18} color="#E50914" />
+            Try Demo Account
+          </motion.button>
+        </div>
 
         {/* Security note */}
         <motion.p

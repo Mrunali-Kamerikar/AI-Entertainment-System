@@ -22,24 +22,95 @@ const getHeaders = () => ({
   ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
 });
 
+export const setAuthToken = (token: string | null) => {
+  authToken = token;
+};
+
 // ────────────────────────────────────────────
-// POST /login — Authenticate user
+// Auth — Production Grade
 // ────────────────────────────────────────────
-export const loginUser = async (username: string, password: string) => {
-  try {
-    const response = await fetch(`${BACKEND_URL}/login`, {
-      method: 'POST',
-      headers: getHeaders(),
-      body: JSON.stringify({ username, password }),
-    });
-    if (!response.ok) throw new Error('Login failed');
-    const data = await response.json();
-    authToken = data.token || null;
-    return data;
-  } catch {
-    // Return mock success for demo purposes
-    return { success: true, username, token: 'mock-jwt-token', userId: 'user_001' };
+export const loginUser = async (email: string, password: string) => {
+  const response = await fetch(`${BACKEND_URL}/login`, {
+    method: 'POST',
+    headers: getHeaders(),
+    body: JSON.stringify({ email, password }),
+  });
+  
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.detail || 'Login failed');
   }
+  
+  authToken = data.token || null;
+  return data;
+};
+
+export const signUpUser = async (email: string, username: string, password: string) => {
+  const response = await fetch(`${BACKEND_URL}/signup`, {
+    method: 'POST',
+    headers: getHeaders(),
+    body: JSON.stringify({ email, username, password }),
+  });
+  
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.detail || 'Signup failed');
+  }
+  
+  authToken = data.token || null;
+  return data;
+};
+
+// ────────────────────────────────────────────
+// User Engagement — Production Grade
+// ────────────────────────────────────────────
+export const getUserEngagement = async (userId: string) => {
+  try {
+    const response = await fetch(`${BACKEND_URL}/engagement/${userId}`, {
+      headers: getHeaders(),
+    });
+    if (!response.ok) return { watchlist: [], favorites: [], ratings: {} };
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching engagement:', error);
+    return { watchlist: [], favorites: [], ratings: {} };
+  }
+};
+
+export const addToWatchlist = async (userId: string, movie: any) => {
+  const response = await fetch(`${BACKEND_URL}/watchlist/add`, {
+    method: 'POST',
+    headers: getHeaders(),
+    body: JSON.stringify({ user_id: userId, movie_id: movie.id, movie_data: movie }),
+  });
+  return await response.json();
+};
+
+export const removeFromWatchlist = async (userId: string, movieId: number) => {
+  const response = await fetch(`${BACKEND_URL}/watchlist/remove`, {
+    method: 'POST',
+    headers: getHeaders(),
+    body: JSON.stringify({ user_id: userId, movie_id: movieId }),
+  });
+  return await response.json();
+};
+
+export const toggleFavorite = async (userId: string, movieId: number) => {
+  const response = await fetch(`${BACKEND_URL}/favorites/toggle`, {
+    method: 'POST',
+    headers: getHeaders(),
+    body: JSON.stringify({ user_id: userId, movie_id: movieId }),
+  });
+  return await response.json();
+};
+
+export const submitRating = async (userId: string, movieId: number, rating: number) => {
+  const response = await fetch(`${BACKEND_URL}/ratings/submit`, {
+    method: 'POST',
+    headers: getHeaders(),
+    body: JSON.stringify({ user_id: userId, movie_id: movieId, rating }),
+  });
+  return await response.json();
 };
 
 // ────────────────────────────────────────────
@@ -137,24 +208,6 @@ export const getMovieReviews = async (movieId: number, voteAverage = 7.5, voteCo
 };
 
 // ────────────────────────────────────────────
-// POST /rate — Submit movie rating
-// ────────────────────────────────────────────
-export const submitRating = async (movieId: number, userId: string, rating: number) => {
-  try {
-    const response = await fetch(`${BACKEND_URL}/rate`, {
-      method: 'POST',
-      headers: getHeaders(),
-      body: JSON.stringify({ movieId, userId, rating }),
-    });
-    if (!response.ok) throw new Error('Rating submission failed');
-    return await response.json();
-  } catch {
-    // Mock success
-    return { success: true, message: 'Rating submitted successfully', movieId, rating };
-  }
-};
-
-// ────────────────────────────────────────────
 // POST /qa — AI Q&A about movies
 // ────────────────────────────────────────────
 export const askMovieQuestion = async (question: string, movieContext?: string) => {
@@ -233,56 +286,30 @@ export const generateScript = async (criteria: ScriptCriteria) => {
   const userId = criteria.user_id || localStorage.getItem('userId') || 'guest';
   const payload = { ...criteria, user_id: userId };
 
-  try {
-    const response = await fetch(`${BACKEND_URL}/generate_script`, {
-      method: 'POST',
-      headers: getHeaders(),
-      body: JSON.stringify(payload),
-    });
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({ detail: 'Unknown error' }));
-      console.error('Backend Error Details:', errorData);
-      throw new Error(`Script generation failed: ${errorData.detail || response.statusText}`);
-    }
-    return await response.json();
-  } catch (error) {
-      console.error('Error generating script:', error);
-      // Return mock script for demo if backend is not running
-      return {
-        script: `⚠️ [AI OFFLINE - SHOWING FALLBACK]\n\nINT. ABANDONED WAREHOUSE - NIGHT\n\nRain drums against the rusted corrugated roof. ARJUN (40s, weary) stands in the shadows, his gun drawn but lowered.\n\nRANA (50s, impeccably dressed) sits on a crate, lighting a cigar with steady hands.\n\nRANA: You're late, Arjun. Even for a man who's lost everything.\n\nARJUN: I haven't lost the ability to pull a trigger, Rana.`,
-        specifications: {
-        style: criteria.style || 'Hollywood',
-        genre: criteria.genre || 'Crime Thriller',
-        language: criteria.language || 'English',
-        length: criteria.length || 'Short (1-2 pages)',
-        setting: criteria.setting || 'Abandoned Warehouse',
-        time: criteria.time || 'Night',
-        tone: criteria.tone || 'Tense'
-      }
-    };
+  const response = await fetch(`${BACKEND_URL}/generate_script`, {
+    method: 'POST',
+    headers: getHeaders(),
+    body: JSON.stringify(payload),
+  });
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({ detail: 'Unknown error' }));
+    throw new Error(errorData.detail || 'Script generation failed');
   }
+  return await response.json();
 };
 
 export const refineScript = async (script: string, action: 'intense' | 'humorous' | 'dialogue') => {
   const userId = localStorage.getItem('userId') || 'guest';
-  try {
-    const response = await fetch(`${BACKEND_URL}/refine_script`, {
-      method: 'POST',
-      headers: getHeaders(),
-      body: JSON.stringify({ script, action, user_id: userId }),
-    });
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({ detail: 'Unknown error' }));
-      console.error('Backend Error Details:', errorData);
-      throw new Error(`Script refinement failed: ${errorData.detail || response.statusText}`);
-    }
-    return await response.json();
-  } catch (error) {
-      console.error('Error refining script:', error);
-      return {
-      script: script + "\n\n⚠️ [AI OFFLINE - SHOWING FALLBACK]\n(AI refinement simulation: Added more " + action + " elements to the scene.)"
-    };
+  const response = await fetch(`${BACKEND_URL}/refine_script`, {
+    method: 'POST',
+    headers: getHeaders(),
+    body: JSON.stringify({ script, action, user_id: userId }),
+  });
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({ detail: 'Unknown error' }));
+    throw new Error(errorData.detail || 'Script refinement failed');
   }
+  return await response.json();
 };
 
 export const getUserScripts = async (userId: string) => {

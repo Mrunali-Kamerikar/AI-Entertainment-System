@@ -34,14 +34,14 @@ const SUGGESTION_CHIPS = [
 ];
 
 export const ChatBot: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { allMovies, activeTool, setActiveTool } = useApp();
+  const isOpen = activeTool === 'chatbot';
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(true);
   const [selectedMovie, setSelectedMovie] = useState<MovieData | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const { allMovies } = useApp();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -151,32 +151,32 @@ export const ChatBot: React.FC = () => {
   };
 
   const handleClose = () => {
-    setIsOpen(false);
+    setActiveTool(null);
   };
 
   const handleOpen = () => {
-    setIsOpen(true);
+    setActiveTool('chatbot');
   };
 
   return (
     <>
       {/* Floating Chat Button */}
       <AnimatePresence>
-        {!isOpen && (
+        {activeTool === null && (
           <motion.button
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
+            initial={{ scale: 0, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0, opacity: 0, y: 20 }}
             whileHover={{ scale: 1.1, boxShadow: '0 12px 32px rgba(229, 9, 20, 0.5)' }}
             whileTap={{ scale: 0.95 }}
             onClick={handleOpen}
-            className="fixed bottom-6 right-6 w-16 h-16 rounded-full flex items-center justify-center z-50 border border-white/10"
+            className="fixed bottom-6 right-6 w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center z-50 border border-white/10"
             style={{
               background: 'linear-gradient(135deg, #E50914 0%, #b30000 100%)',
               boxShadow: '0 8px 24px rgba(229, 9, 20, 0.4)',
             }}
           >
-            <MessageCircle size={28} color="#fff" />
+            <MessageCircle size={24} className="md:w-7 md:h-7 text-white" />
             {/* Pulse animation */}
             <motion.div
               animate={{ scale: [1, 1.3, 1], opacity: [0.5, 0, 0.5] }}
@@ -201,7 +201,7 @@ export const ChatBot: React.FC = () => {
               className="fixed bottom-6 right-6 z-50 flex flex-col overflow-hidden"
               style={{
                 width: 'min(420px, calc(100vw - 48px))',
-                height: 'min(600px, calc(100vh - 100px))',
+                height: 'min(640px, calc(100vh - 100px))',
                 background: 'linear-gradient(180deg, #1a1a1a 0%, #141414 100%)',
                 borderRadius: 20,
                 boxShadow: '0 24px 60px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.08)',
@@ -215,15 +215,12 @@ export const ChatBot: React.FC = () => {
                 }}
               >
                 <div className="flex items-center gap-3">
-                  <div className="relative">
-                    <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                      <Sparkles size={20} color="#fff" />
-                    </div>
-                    <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-[#E50914]" />
+                  <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                    <Sparkles size={20} color="#fff" />
                   </div>
                   <div>
-                    <h3 className="text-white font-bold text-base m-0">CineVerse Assistant</h3>
-                    <p className="text-white/70 text-xs m-0">AI-Powered Movie Expert</p>
+                    <h3 className="text-white font-bold text-base m-0">CineVerse AI</h3>
+                    <p className="text-white/70 text-xs m-0">Powered by Gemini</p>
                   </div>
                 </div>
                 <motion.button

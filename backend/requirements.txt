@@ -11,3 +11,5 @@ cors
 langchain
 langchain-google-genai
 langchain-core
+passlib[bcrypt]
+pyjwt

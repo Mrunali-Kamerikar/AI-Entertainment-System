@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, LayoutList, ListChecks, Calendar, ShieldCheck, Play, ArrowRight, Loader2, BrainCircuit, Download, History, ChevronRight, FileText, Clock } from 'lucide-react';
+import { X, LayoutList, ListChecks, Calendar, ShieldCheck, Play, ArrowRight, Loader2, BrainCircuit, Download, History, ChevronRight, FileText, Clock, AlertCircle, Sparkles } from 'lucide-react';
 import { createExecutionPlan, ExecutionSchedule, PlannerStep, getUserPlans } from '../services/backend';
+import { useApp } from '../context/AppContext';
+import { useNavigate } from 'react-router';
 
 export const PlannerAgent: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { user, trialUsage, refreshTrialUsage, activeTool, setActiveTool } = useApp();
+  const navigate = useNavigate();
+  const isOpen = activeTool === 'plannerAgent';
+  const setIsOpen = (open: boolean) => setActiveTool(open ? 'plannerAgent' : null);
   const [goal, setGoal] = useState('');
   const [isPlanning, setIsPlanning] = useState(false);
   const [plan, setPlan] = useState<ExecutionSchedule | null>(null);
@@ -12,6 +17,11 @@ export const PlannerAgent: React.FC = () => {
   const [showHistory, setShowHistory] = useState(false);
   const [history, setHistory] = useState<ExecutionSchedule[]>([]);
   const [isLoadingHistory, setIsLoadingHistory] = useState(false);
+  const [showUpgrade, setShowUpgrade] = useState(false);
+
+  const trialLimit = 2;
+  const currentUsage = trialUsage.planner;
+  const isLimitReached = user?.isDemo && currentUsage >= trialLimit;
 
   useEffect(() => {
     if (showHistory && isOpen) {
@@ -33,15 +43,31 @@ export const PlannerAgent: React.FC = () => {
 
   const handleCreatePlan = async () => {
     if (!goal.trim()) return;
+    
+    if (isLimitReached) {
+      setShowUpgrade(true);
+      return;
+    }
+
     setIsPlanning(true);
     setError(null);
     try {
       const result = await createExecutionPlan(goal);
       setPlan(result);
+      
+      // Update trial usage counter
+      if (user?.isDemo) {
+        await refreshTrialUsage();
+      }
+
       // Refresh history if it's being shown
       if (showHistory) loadHistory();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'The Agent Reasoning Loop encountered an error. Please check the backend connection.');
+    } catch (err: any) {
+      if (err.message?.includes('demo attempts')) {
+        setShowUpgrade(true);
+      } else {
+        setError(err instanceof Error ? err.message : 'The Agent Reasoning Loop encountered an error. Please check the backend connection.');
+      }
     } finally {
       setIsPlanning(false);
     }
@@ -76,21 +102,21 @@ export const PlannerAgent: React.FC = () => {
     <>
       {/* Floating Planner Button */}
       <AnimatePresence>
-        {!isOpen && (
+        {activeTool === null && (
           <motion.button
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
+            initial={{ scale: 0, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0, opacity: 0, y: 20 }}
             whileHover={{ scale: 1.1, boxShadow: '0 12px 32px rgba(229, 9, 20, 0.5)' }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsOpen(true)}
-            className="fixed bottom-6 right-52 w-16 h-16 rounded-full flex items-center justify-center z-50 border border-white/10"
+            className="fixed bottom-6 right-40 md:right-52 w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center z-50 border border-white/10"
             style={{
               background: 'linear-gradient(135deg, #E50914 0%, #B20710 100%)',
               boxShadow: '0 8px 24px rgba(229, 9, 20, 0.4)',
             }}
           >
-            <BrainCircuit size={28} color="#fff" />
+            <BrainCircuit size={24} className="md:w-7 md:h-7 text-white" />
             <motion.div
               animate={{ scale: [1, 1.3, 1], opacity: [0.5, 0, 0.5] }}
               transition={{ duration: 2, repeat: Infinity }}
@@ -157,7 +183,46 @@ export const PlannerAgent: React.FC = () => {
 
             {/* Content Area */}
             <div className="flex-1 overflow-y-auto p-6 text-white custom-scrollbar">
-              {showHistory ? (
+              {showUpgrade ? (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="flex flex-col items-center justify-center py-12 text-center space-y-6"
+                >
+                  <div className="w-20 h-20 rounded-full bg-red-600/20 flex items-center justify-center border border-red-600/30">
+                    <Sparkles size={40} className="text-red-500" />
+                  </div>
+                  <div className="space-y-2">
+                    <h4 className="text-2xl font-bold text-white">Trial Limit Reached</h4>
+                    <p className="text-slate-400 text-sm max-w-xs mx-auto leading-relaxed">
+                      You've used your {trialLimit} free demo attempts for the Planner Agent. 
+                      Sign in or create an account to unlock unlimited access.
+                    </p>
+                  </div>
+                  <div className="flex flex-col w-full gap-3 pt-4">
+                    <motion.button
+                      whileHover={{ scale: 1.02, backgroundColor: '#E50914' }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => navigate('/signup')}
+                      className="w-full bg-red-600 text-white font-bold py-4 rounded-2xl border-0 cursor-pointer shadow-xl"
+                    >
+                      Create Free Account
+                    </motion.button>
+                    <button
+                      onClick={() => navigate('/login')}
+                      className="w-full bg-transparent text-slate-300 font-bold py-3 border-0 cursor-pointer hover:text-white transition-colors"
+                    >
+                      Already have an account? Sign In
+                    </button>
+                    <button
+                      onClick={() => setShowUpgrade(false)}
+                      className="text-slate-500 text-xs hover:text-slate-400 underline pt-2 bg-transparent border-0 cursor-pointer"
+                    >
+                      Maybe later
+                    </button>
+                  </div>
+                </motion.div>
+              ) : showHistory ? (
                 <div className="flex flex-col gap-4 animate-in fade-in slide-in-from-right-4 duration-300">
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="text-lg font-bold text-white">Recent Plans</h4>
@@ -211,6 +276,14 @@ export const PlannerAgent: React.FC = () => {
                 <div className="flex flex-col gap-8 py-4">
                   <div className="space-y-4 text-center">
                     <h4 className="text-xl font-semibold text-slate-200">What do you want to achieve?</h4>
+                    {user?.isDemo && (
+                      <div className="flex items-center justify-center gap-2 px-3 py-1.5 rounded-full bg-red-600/10 border border-red-600/20 w-fit mx-auto">
+                        <Sparkles size={12} className="text-red-500" />
+                        <span className="text-[10px] font-bold text-red-500 uppercase tracking-widest">
+                          Demo Limit: {currentUsage}/{trialLimit} Attempts Used
+                        </span>
+                      </div>
+                    )}
                     <p className="text-slate-400 text-sm max-w-sm mx-auto leading-relaxed">
                       Enter a high-level entertainment goal, and the agent will decompose it into actionable steps.
                     </p>

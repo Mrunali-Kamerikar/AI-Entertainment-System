@@ -6,11 +6,12 @@
 import React, { createContext, useContext, useState, useCallback, useRef, useEffect } from 'react';
 import { MovieData } from '../data/mockData';
 import { searchMovies, fetchTrendingMovies, GENRE_MAP } from '../services/tmdb';
-import { getRecommendations, submitRating as apiSubmitRating, loginUser } from '../services/backend';
+import { getRecommendations, submitRating as apiSubmitRating, loginUser, signUpUser, setAuthToken, getUserEngagement, addToWatchlist as apiAddToWatchlist, removeFromWatchlist as apiRemoveFromWatchlist, toggleFavorite as apiToggleFavorite } from '../services/backend';
 import { loadAllIndustryMovies, loadTrendingMovies } from '../services/dataLoader';
 import { performLogout, clearSession } from '../utils/authStorage';
 
 type ActiveTab = 'recommendations' | 'summary' | 'reviews' | 'qa' | 'trending' | 'bollywood' | 'hollywood' | 'tollywood' | 'kdrama' | 'anime';
+export type ToolType = 'chatbot' | 'scriptGenerator' | 'plannerAgent' | null;
 
 export interface HistoryItem {
   id: number;
@@ -22,41 +23,59 @@ export interface HistoryItem {
 
 interface AppContextType {
   // Auth
-  user: { username: string; userId: string } | null;
-  login: (username: string, password: string) => Promise<void>;
+  user: { username: string; userId: string; email?: string; isDemo?: boolean } | null;
+  login: (email: string, password: string) => Promise<void>;
+  signup: (email: string, username: string, password: string) => Promise<void>;
+  enterDemoMode: () => void;
   logout: () => void;
 
-  // Movies
-  recommendations: MovieData[];
-  trendingMovies: MovieData[];
-  selectedMovie: MovieData | null;
-  setSelectedMovie: (movie: MovieData | null) => void;
-  searchResults: MovieData[];
-  isSearching: boolean;
-  allMovies: MovieData[]; // All loaded movies from TMDB
-  recentHistory: HistoryItem[]; // Dynamic viewing history
-  addToHistory: (movie: MovieData) => void;
+  // Engagement
+  watchlist: MovieData[];
+  favorites: number[];
+  userRatings: Record<number, number>;
+  toggleWatchlist: (movie: MovieData) => Promise<void>;
+  toggleFavorite: (movieId: number) => Promise<void>;
+  submitRating: (movieId: number, rating: number) => Promise<void>;
+  isInWatchlist: (movieId: number) => boolean;
+  isFavorite: (movieId: number) => boolean;
 
-  // UI
+  // Navigation
   activeTab: ActiveTab;
   setActiveTab: (tab: ActiveTab) => void;
+  activeTool: ToolType;
+  setActiveTool: (tool: ToolType) => void;
   isSidebarOpen: boolean;
-  setIsSidebarOpen: (open: boolean) => void;
-  isLoading: boolean;
+  setIsSidebarOpen: (isOpen: boolean) => void;
+
+  // Search
   searchQuery: string;
-  setSearchQuery: (q: string) => void;
-  activeGenreFilter: string;
-  setActiveGenreFilter: (g: string) => void;
+  setSearchQuery: (query: string) => void;
+  searchResults: MovieData[];
+  isSearching: boolean;
+  doSearch: (query: string) => Promise<void>;
 
-  // Ratings
-  userRatings: Record<number, number>;
-  submitRating: (movieId: number, rating: number) => void;
-
-  // Actions
+  // Data
+  trendingMovies: MovieData[];
+  recommendations: MovieData[];
+  allMovies: MovieData[];
+  selectedMovie: MovieData | null;
+  setSelectedMovie: (movie: MovieData | null) => void;
   fetchRecommendations: (query: string) => Promise<void>;
   fetchTrending: () => Promise<void>;
-  doSearch: (query: string) => Promise<void>;
-  reloadMovies: () => Promise<void>; // New: reload all movies from TMDB
+  reloadMovies: () => Promise<void>;
+  isLoading: boolean;
+  activeGenreFilter: string;
+  setActiveGenreFilter: (genre: string) => void;
+  recentHistory: HistoryItem[];
+  addToHistory: (movie: MovieData) => void;
+
+  // UI/Engagement Notification
+  engagementError: string | null;
+  clearEngagementError: () => void;
+
+  // Trial Usage
+  trialUsage: { planner: number; generator: number };
+  refreshTrialUsage: () => Promise<void>;
 }
 
 const AppContext = createContext<AppContextType | null>(null);
@@ -94,7 +113,8 @@ const getRelativeTime = (timestamp: number): string => {
 };
 
 // Convert TMDB raw movie to MovieData format
-const tmdbToMovieData = (raw: Record<string, unknown>): MovieData => ({
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const tmdbToMovieData = (raw: any): MovieData => ({
   id: raw.id as number,
   tmdbId: raw.id as number,
   title: raw.title as string,
@@ -118,13 +138,14 @@ const tmdbToMovieData = (raw: Record<string, unknown>): MovieData => ({
 });
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<{ username: string; userId: string } | null>(null);
+  const [user, setUser] = useState<{ username: string; userId: string; email?: string; isDemo?: boolean } | null>(null);
   const [recommendations, setRecommendations] = useState<MovieData[]>([]);
   const [trendingMovies, setTrendingMovies] = useState<MovieData[]>([]);
   const [selectedMovie, setSelectedMovie] = useState<MovieData | null>(null);
   const [searchResults, setSearchResults] = useState<MovieData[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [activeTab, setActiveTab] = useState<ActiveTab>('trending');
+  const [activeTool, setActiveTool] = useState<ToolType>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -138,39 +159,186 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return saved ? JSON.parse(saved) : [];
   });
 
-  const login = useCallback(async (username: string, password: string) => {
+  // Engagement State
+  const [watchlist, setWatchlist] = useState<MovieData[]>([]);
+  const [favorites, setFavorites] = useState<number[]>([]);
+  const [engagementError, setEngagementError] = useState<string | null>(null);
+  const [trialUsage, setTrialUsage] = useState({ planner: 0, generator: 0 });
+
+  const login = useCallback(async (email: string, password: string) => {
     try {
-      const result = await loginUser(username, password);
+      const result = await loginUser(email, password);
       const userData = {
-        username: result.username || username,
-        userId: result.userId || `user_${username.toLowerCase().replace(/\s/g, '_')}`
+        username: result.username,
+        userId: result.userId,
+        email: email,
+        isDemo: false
       };
       
       // Update state
       setUser(userData);
       
-      // Store in session storage for persistence during refresh
-      localStorage.setItem('cineverse-user', JSON.stringify(userData));
+      // Load engagement from login response
+      if (result.engagement) {
+        setWatchlist(result.engagement.watchlist || []);
+        setFavorites(result.engagement.favorites || []);
+        setUserRatings(result.engagement.ratings || {});
+      }
+
+      if (result.trial_usage) {
+        setTrialUsage(result.trial_usage);
+      }
       
-      console.log('✅ User state updated in context:', userData);
+      // Store in session storage for persistence
+      localStorage.setItem('cineverse-user', JSON.stringify(userData));
+      localStorage.setItem('cineverse-token', result.token);
+      setAuthToken(result.token);
+      
+      console.log('✅ User authenticated:', userData);
     } catch (error) {
-      console.error('❌ Login failed in AppContext:', error);
+      console.error('❌ Login failed:', error);
       throw error;
     }
   }, []);
 
-  // Sync user from localStorage on mount
+  const signup = useCallback(async (email: string, username: string, password: string) => {
+    try {
+      const result = await signUpUser(email, username, password);
+      const userData = {
+        username: result.username,
+        userId: result.userId,
+        email: email,
+        isDemo: false
+      };
+      
+      setUser(userData);
+      localStorage.setItem('cineverse-user', JSON.stringify(userData));
+      localStorage.setItem('cineverse-token', result.token);
+      setAuthToken(result.token);
+      
+      console.log('✅ User registered:', userData);
+    } catch (error) {
+      console.error('❌ Signup failed:', error);
+      throw error;
+    }
+  }, []);
+
+  const enterDemoMode = useCallback(() => {
+    const demoUser = {
+      username: 'Demo User',
+      userId: 'user_demo',
+      email: 'demo@cineverse.ai',
+      isDemo: true
+    };
+    setUser(demoUser);
+    setWatchlist([]);
+    setFavorites([]);
+    setUserRatings({});
+    
+    // Fetch current demo usage from backend
+    getUserEngagement(demoUser.userId).then(data => {
+      if (data.trial_usage) {
+        setTrialUsage(data.trial_usage);
+      }
+    });
+
+    localStorage.setItem('cineverse-user', JSON.stringify(demoUser));
+    console.log('🎮 Entered Demo Mode');
+  }, []);
+
+  const refreshTrialUsage = useCallback(async () => {
+    if (!user) return;
+    const data = await getUserEngagement(user.userId);
+    if (data.trial_usage) {
+      setTrialUsage(data.trial_usage);
+    }
+  }, [user]);
+
+  // Sync user and engagement on mount
   useEffect(() => {
     const savedUser = localStorage.getItem('cineverse-user');
+    const savedToken = localStorage.getItem('cineverse-token');
+    
     if (savedUser && !user) {
       try {
         const parsed = JSON.parse(savedUser);
         setUser(parsed);
+        if (savedToken) {
+          setAuthToken(savedToken);
+        }
+        
+        // Fetch fresh engagement and trial data
+        getUserEngagement(parsed.userId).then(data => {
+          if (data.engagement) {
+            setWatchlist(data.engagement.watchlist || []);
+            setFavorites(data.engagement.favorites || []);
+            setUserRatings(data.engagement.ratings || {});
+          }
+          if (data.trial_usage) {
+            setTrialUsage(data.trial_usage);
+          }
+        });
       } catch (e) {
         console.error('Error parsing saved user:', e);
       }
     }
   }, [user]);
+
+  // Engagement Actions
+  const toggleWatchlist = useCallback(async (movie: MovieData) => {
+    if (!user) return;
+    if (user.isDemo) {
+      setEngagementError('Sign in or sign up to use this feature, or continue browsing in demo mode.');
+      return;
+    }
+
+    const inWatchlist = watchlist.some(m => m.id === movie.id);
+    
+    // Optimistic Update
+    if (inWatchlist) {
+      setWatchlist(prev => prev.filter(m => m.id !== movie.id));
+      await apiRemoveFromWatchlist(user.userId, movie.id);
+    } else {
+      setWatchlist(prev => [...prev, movie]);
+      await apiAddToWatchlist(user.userId, movie);
+    }
+  }, [user, watchlist]);
+
+  const toggleFavorite = useCallback(async (movieId: number) => {
+    if (!user) return;
+    if (user.isDemo) {
+      setEngagementError('Sign in or sign up to use this feature, or continue browsing in demo mode.');
+      return;
+    }
+
+    // Optimistic Update
+    setFavorites(prev => 
+      prev.includes(movieId) ? prev.filter(id => id !== movieId) : [...prev, movieId]
+    );
+    await apiToggleFavorite(user.userId, movieId);
+  }, [user]);
+
+  const submitRating = useCallback(async (movieId: number, rating: number) => {
+    if (!user) return;
+    if (user.isDemo) {
+      setEngagementError('Sign in or sign up to use this feature, or continue browsing in demo mode.');
+      return;
+    }
+
+    // Optimistic Update
+    setUserRatings(prev => ({ ...prev, [movieId]: rating }));
+    await apiSubmitRating(user.userId, movieId, rating);
+  }, [user]);
+
+  const isInWatchlist = useCallback((movieId: number) => {
+    return watchlist.some(m => m.id === movieId);
+  }, [watchlist]);
+
+  const isFavorite = useCallback((movieId: number) => {
+    return favorites.includes(movieId);
+  }, [favorites]);
+
+  const clearEngagementError = () => setEngagementError(null);
 
   const logout = useCallback(() => {
     setUser(null);
@@ -178,6 +346,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setUserRatings({});
     performLogout();
     clearSession();
+    localStorage.removeItem('cineverse-user');
+    localStorage.removeItem('cineverse-token');
+    setAuthToken(null);
   }, []);
 
   const fetchRecommendations = useCallback(async (query: string) => {
@@ -191,8 +362,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         // Fallback: search TMDB directly
         const tmdbResults = await searchMovies(query);
         if (tmdbResults.length > 0) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          setRecommendations(tmdbResults.slice(0, 12).map((m: any) => tmdbToMovieData(m)));
+          setRecommendations(tmdbResults.slice(0, 12).map(tmdbToMovieData));
         } else {
           setRecommendations([]);
           console.warn('⚠️ No results found for query:', query);
@@ -208,8 +378,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     try {
       const tmdbResults = await fetchTrendingMovies();
       if (tmdbResults.length > 0) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setTrendingMovies(tmdbResults.map((m: any) => tmdbToMovieData(m)));
+        setTrendingMovies(tmdbResults.map(tmdbToMovieData));
       } else {
         setTrendingMovies([]);
         console.warn('⚠️ No trending movies available');
@@ -220,7 +389,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   }, []);
 
   // Debounced search with TMDB fallback to local search
-  const doSearch = useCallback((query: string) => {
+  const doSearch = useCallback(async (query: string): Promise<void> => {
     if (!query.trim()) {
       setSearchResults([]);
       setIsSearching(false);
@@ -230,68 +399,68 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setIsSearching(true);
     if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
 
-    searchTimeoutRef.current = setTimeout(async () => {
-      try {
-        // Try TMDB API search first with timeout
-        const tmdbResults = await Promise.race([
-          searchMovies(query),
-          new Promise<never>((_, reject) => 
-            setTimeout(() => reject(new Error('Search timeout')), 2000)
-          )
-        ]);
+    return new Promise((resolve) => {
+      searchTimeoutRef.current = setTimeout(async () => {
+        try {
+          // Try TMDB API search first with timeout
+          const tmdbResults = await Promise.race([
+            searchMovies(query),
+            new Promise<never>((_, reject) => 
+              setTimeout(() => reject(new Error('Search timeout')), 2000)
+            )
+          ]);
 
-        if (tmdbResults.length > 0) {
-          const mapped = tmdbResults.slice(0, 12).map(tmdbToMovieData);
-          setSearchResults(mapped);
-          console.log(`🔍 TMDB search "${query}" → ${mapped.length} results`);
-        } else {
-          throw new Error('No TMDB results');
-        }
-      } catch (err) {
-        // Fallback to local search when TMDB fails
-        if (allMovies.length > 0) {
-          const queryLower = query.toLowerCase().trim();
-          // More flexible search - matches anywhere in title or partial words
-          const filtered = allMovies.filter(m => {
-            const titleLower = m.title.toLowerCase();
-            const overviewLower = m.overview.toLowerCase();
-            
-            // Check if title contains the query (handles "3 idiots", "idiots", etc.)
-            if (titleLower.includes(queryLower)) return true;
-            
-            // Check individual words in the query
-            const queryWords = queryLower.split(/\s+/);
-            if (queryWords.every(word => titleLower.includes(word))) return true;
-            
-            // Check overview
-            if (overviewLower.includes(queryLower)) return true;
-            
-            // Check genres
-            if (m.genres.some(g => g.toLowerCase().includes(queryLower))) return true;
-            
-            // Check industry
-            if (m.industry && m.industry.toLowerCase().includes(queryLower)) return true;
-            
-            return false;
-          });
-          
-          setSearchResults(filtered.slice(0, 12));
-          if (filtered.length > 0) {
-            console.log(`✅ Local search "${query}" → ${filtered.length} results`);
+          if (tmdbResults.length > 0) {
+            const mapped = tmdbResults.slice(0, 12).map(tmdbToMovieData);
+            setSearchResults(mapped);
+            console.log(`🔍 TMDB search "${query}" → ${mapped.length} results`);
+          } else {
+            throw new Error('No TMDB results');
           }
-        } else {
-          setSearchResults([]);
+        } catch (err) {
+          // Fallback to local search when TMDB fails
+          if (allMovies.length > 0) {
+            const queryLower = query.toLowerCase().trim();
+            // More flexible search - matches anywhere in title or partial words
+            const filtered = allMovies.filter(m => {
+              const titleLower = m.title.toLowerCase();
+              const overviewLower = m.overview.toLowerCase();
+              
+              // Check if title contains the query (handles "3 idiots", "idiots", etc.)
+              if (titleLower.includes(queryLower)) return true;
+              
+              // Check individual words in the query
+              const queryWords = queryLower.split(/\s+/);
+              if (queryWords.every(word => titleLower.includes(word))) return true;
+              
+              // Check overview
+              if (overviewLower.includes(queryLower)) return true;
+              
+              // Check genres
+              if (m.genres.some(g => g.toLowerCase().includes(queryLower))) return true;
+              
+              // Check industry
+              if (m.industry && m.industry.toLowerCase().includes(queryLower)) return true;
+              
+              return false;
+            });
+            
+            setSearchResults(filtered.slice(0, 12));
+            if (filtered.length > 0) {
+              console.log(`✅ Local search "${query}" → ${filtered.length} results`);
+            }
+          } else {
+            setSearchResults([]);
+          }
+        } finally {
+          setIsSearching(false);
+          resolve();
         }
-      } finally {
-        setIsSearching(false);
-      }
-    }, 350);
+      }, 350);
+    });
   }, [allMovies]);
 
-  const submitRating = useCallback(async (movieId: number, rating: number) => {
-    setUserRatings(prev => ({ ...prev, [movieId]: rating }));
-    await apiSubmitRating(movieId, user?.userId || 'guest', rating);
-  }, [user]);
+
 
   // Add movie to recent history
   const addToHistory = useCallback((movie: MovieData) => {
@@ -408,13 +577,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   return (
     <AppContext.Provider value={{
-      user, login, logout,
+      user, login, signup, enterDemoMode, logout,
       recommendations, trendingMovies, selectedMovie, setSelectedMovie: handleSetSelectedMovie,
       searchResults, isSearching, allMovies, recentHistory, addToHistory,
-      activeTab, setActiveTab, isSidebarOpen, setIsSidebarOpen,
+      activeTab, setActiveTab, activeTool, setActiveTool, isSidebarOpen, setIsSidebarOpen,
       isLoading, searchQuery, setSearchQuery, activeGenreFilter, setActiveGenreFilter,
       userRatings, submitRating,
-      fetchRecommendations, fetchTrending, doSearch, reloadMovies,
+      watchlist, favorites, toggleWatchlist, toggleFavorite,
+       isInWatchlist, isFavorite, engagementError, clearEngagementError,
+       trialUsage, refreshTrialUsage,
+       fetchRecommendations, fetchTrending, doSearch, reloadMovies,
     }}>
       {children}
     </AppContext.Provider>

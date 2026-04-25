@@ -1,0 +1,46 @@
+{
+    "user_cinemafan": {
+        "watchlist": [
+            {
+                "id": 202,
+                "tmdbId": 29996,
+                "title": "RRR",
+                "overview": "A fictional story about two legendary revolutionaries and their journey away from home before they started fighting for their country in 1920s.",
+                "poster_path": "/wE0I6efAW4cDDmZQWtwZMOW44EJ.jpg",
+                "backdrop_path": "/wE0I6efAW4cDDmZQWtwZMOW44EJ.jpg",
+                "release_date": "2022-03-25",
+                "vote_average": 8.2,
+                "genre_ids": [
+                    28,
+                    18,
+                    36
+                ],
+                "genres": [
+                    "Action",
+                    "Drama",
+                    "History"
+                ],
+                "runtime": 187,
+                "tagline": "Rise, Roar, Revolt.",
+                "aiScore": 9,
+                "aiExplanation": "Explosive action sequences combined with emotional depth create an unforgettable cinematic experience.",
+                "aiScoreBreakdown": {
+                    "similarityScore": 8.6,
+                    "ratingBoost": 0.6,
+                    "genreBoost": 0.2,
+                    "historyPenalty": 0.4
+                },
+                "industry": "Tollywood",
+                "popularity": 95,
+                "cast": [
+                    "N. T. Rama Rao Jr.",
+                    "Ram Charan",
+                    "Alia Bhatt"
+                ],
+                "trendingScore": 84.25342465753424
+            }
+        ],
+        "favorites": [],
+        "ratings": {}
+    }
+}

@@ -1,10 +1,12 @@
-from fastapi import FastAPI, HTTPException, Body
+from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from typing import List, Optional, Dict, Any
 import os
 import json
-from datetime import datetime
+import jwt
+from datetime import datetime, timedelta, timezone
+from passlib.context import CryptContext
 from dotenv import load_dotenv
 from pipeline import ScriptPipeline
 from rag_manager import RAGManager
@@ -12,6 +14,13 @@ from planner_agent import PlannerAgent
 
 # Load environment variables
 load_dotenv()
+
+# --- Auth Configuration ---
+JWT_SECRET = os.getenv("JWT_SECRET", "supersecretkey")
+JWT_ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 1440))
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 app = FastAPI(title="Entertainment Script Generator API")
 
@@ -66,6 +75,77 @@ planner = PlannerAgent()
 # Persistence Helpers
 SCRIPTS_FILE = "user_scripts.json"
 PLANS_FILE = "user_plans.json"
+USERS_FILE = "users.json"
+ENGAGEMENT_FILE = "user_engagement.json"
+TRIAL_USAGE_FILE = "trial_usage.json"
+
+# --- Helper Functions ---
+def load_trial_usage():
+    if os.path.exists(TRIAL_USAGE_FILE):
+        with open(TRIAL_USAGE_FILE, "r") as f:
+            return json.load(f)
+    return {}
+
+def save_trial_usage(data):
+    with open(TRIAL_USAGE_FILE, "w") as f:
+        json.dump(data, f, indent=4)
+
+def check_trial_limit(user_id: str, feature: str):
+    if user_id != "user_demo":
+        return True, 0  # Authenticated users have no limit
+    
+    usage = load_trial_usage()
+    user_usage = usage.get(user_id, {"planner": 0, "generator": 0})
+    
+    limit = 2
+    current = user_usage.get(feature, 0)
+    
+    if current >= limit:
+        return False, current
+    
+    return True, current
+
+def increment_trial_usage(user_id: str, feature: str):
+    if user_id != "user_demo":
+        return
+    
+    usage = load_trial_usage()
+    if user_id not in usage:
+        usage[user_id] = {"planner": 0, "generator": 0}
+    
+    usage[user_id][feature] = usage[user_id].get(feature, 0) + 1
+    save_trial_usage(usage)
+def load_engagement():
+    if os.path.exists(ENGAGEMENT_FILE):
+        with open(ENGAGEMENT_FILE, "r") as f:
+            return json.load(f)
+    return {}
+
+def save_engagement(data):
+    with open(ENGAGEMENT_FILE, "w") as f:
+        json.dump(data, f, indent=4)
+def get_password_hash(password):
+    return pwd_context.hash(password)
+
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
+
+def create_access_token(data: dict):
+    to_encode = data.copy()
+    expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, JWT_SECRET, algorithm=JWT_ALGORITHM)
+    return encoded_jwt
+
+def load_users():
+    if os.path.exists(USERS_FILE):
+        with open(USERS_FILE, "r") as f:
+            return json.load(f)
+    return {}
+
+def save_users(users):
+    with open(USERS_FILE, "w") as f:
+        json.dump(users, f, indent=4)
 
 def save_to_history(user_id: str, script_data: Dict[str, Any]):
     try:
@@ -113,18 +193,24 @@ def save_plan_to_history(user_id: str, plan_data: Dict[str, Any]):
     except Exception as e:
         print(f"Error saving plan history: {e}")
 
+# --- Pydantic Models ---
 class Character(BaseModel):
     name: str
     role: Optional[str] = ""
     traits: Optional[str] = ""
 
 class LoginRequest(BaseModel):
+    email: EmailStr
+    password: str
+
+class SignUpRequest(BaseModel):
+    email: EmailStr
     username: str
     password: str
 
 class ScriptCriteria(BaseModel):
     idea: str
-    user_id: Optional[str] = "guest"  # Added user_id
+    user_id: Optional[str] = "guest"
     language: Optional[str] = "English"
     length: Optional[str] = "Medium (3-5 pages)"
     style: Optional[str] = "Hollywood"
@@ -137,27 +223,178 @@ class ScriptCriteria(BaseModel):
 class RefineRequest(BaseModel):
     script: str
     action: str  # "intense", "humorous", "dialogue"
-    user_id: Optional[str] = "guest"  # Added user_id
+    user_id: Optional[str] = "guest"
 
 class PlanRequest(BaseModel):
     goal: str
     user_id: Optional[str] = "guest"
 
+class EngagementRequest(BaseModel):
+    user_id: str
+    movie_id: int
+    movie_data: Optional[Dict[str, Any]] = None
+
+class RatingRequest(BaseModel):
+    user_id: str
+    movie_id: int
+    rating: float
+
+# --- Endpoints ---
 @app.get("/")
 async def root():
     return {"message": "Entertainment Script Generator API is running"}
 
-@app.post("/login")
-async def login(request: LoginRequest):
-    # Simplified login for demo purposes
-    # In a production app, this would verify credentials against a database
+@app.post("/signup")
+async def signup(request: SignUpRequest):
+    users = load_users()
+    
+    if request.email in users:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Account already exists. Please sign in."
+        )
+    
+    # Check if username exists
+    for u in users.values():
+        if u["username"] == request.username:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Username already taken. Please choose another one."
+            )
+            
     userId = f"user_{request.username.lower().replace(' ', '_')}"
+    
+    users[request.email] = {
+        "email": request.email,
+        "username": request.username,
+        "password": get_password_hash(request.password),
+        "userId": userId,
+        "created_at": datetime.now().isoformat()
+    }
+    
+    save_users(users)
+    
+    token = create_access_token({"sub": request.email})
+    
     return {
         "success": True,
         "username": request.username,
         "userId": userId,
-        "token": "mock-jwt-token"
+        "token": token
     }
+
+@app.post("/login")
+async def login(request: LoginRequest):
+    users = load_users()
+    
+    user = users.get(request.email)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No account found. Please sign up first."
+        )
+    
+    if not verify_password(request.password, user["password"]):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid password. Please try again."
+        )
+    
+    token = create_access_token({"sub": request.email})
+    
+    # Load user engagement data
+    engagement = load_engagement()
+    user_data = engagement.get(user["userId"], {
+        "watchlist": [],
+        "favorites": [],
+        "ratings": {}
+    })
+    
+    # Load trial usage (should be 0 for auth users but good for consistency)
+    trial_usage = load_trial_usage().get(user["userId"], {"planner": 0, "generator": 0})
+    
+    return {
+        "success": True,
+        "username": user["username"],
+        "userId": user["userId"],
+        "token": token,
+        "engagement": user_data,
+        "trial_usage": trial_usage
+    }
+
+# --- User Engagement Endpoints ---
+
+@app.get("/engagement/{user_id}")
+async def get_engagement(user_id: str):
+    engagement = load_engagement()
+    trial_usage = load_trial_usage().get(user_id, {"planner": 0, "generator": 0})
+    return {
+        "engagement": engagement.get(user_id, {"watchlist": [], "favorites": [], "ratings": {}}),
+        "trial_usage": trial_usage
+    }
+
+@app.post("/watchlist/add")
+async def add_to_watchlist(request: EngagementRequest):
+    if request.user_id == "user_demo":
+        return {"success": False, "message": "Demo mode restricted"}
+    
+    engagement = load_engagement()
+    user_id = request.user_id
+    if user_id not in engagement:
+        engagement[user_id] = {"watchlist": [], "favorites": [], "ratings": {}}
+    
+    # Avoid duplicates
+    if not any(m["id"] == request.movie_id for m in engagement[user_id]["watchlist"]):
+        engagement[user_id]["watchlist"].append(request.movie_data)
+        save_engagement(engagement)
+    
+    return {"success": True, "watchlist": engagement[user_id]["watchlist"]}
+
+@app.post("/watchlist/remove")
+async def remove_from_watchlist(request: EngagementRequest):
+    if request.user_id == "user_demo":
+        return {"success": False, "message": "Demo mode restricted"}
+        
+    engagement = load_engagement()
+    user_id = request.user_id
+    if user_id in engagement:
+        engagement[user_id]["watchlist"] = [m for m in engagement[user_id]["watchlist"] if m["id"] != request.movie_id]
+        save_engagement(engagement)
+    
+    return {"success": True, "watchlist": engagement.get(user_id, {}).get("watchlist", [])}
+
+@app.post("/favorites/toggle")
+async def toggle_favorite(request: EngagementRequest):
+    if request.user_id == "user_demo":
+        return {"success": False, "message": "Demo mode restricted"}
+        
+    engagement = load_engagement()
+    user_id = request.user_id
+    if user_id not in engagement:
+        engagement[user_id] = {"watchlist": [], "favorites": [], "ratings": {}}
+    
+    favs = engagement[user_id]["favorites"]
+    if request.movie_id in favs:
+        favs.remove(request.movie_id)
+    else:
+        favs.append(request.movie_id)
+    
+    save_engagement(engagement)
+    return {"success": True, "favorites": favs}
+
+@app.post("/ratings/submit")
+async def submit_rating_endpoint(request: RatingRequest):
+    if request.user_id == "user_demo":
+        return {"success": False, "message": "Demo mode restricted"}
+        
+    engagement = load_engagement()
+    user_id = request.user_id
+    if user_id not in engagement:
+        engagement[user_id] = {"watchlist": [], "favorites": [], "ratings": {}}
+    
+    engagement[user_id]["ratings"][str(request.movie_id)] = request.rating
+    save_engagement(engagement)
+    return {"success": True, "ratings": engagement[user_id]["ratings"]}
 
 @app.get("/get_user_scripts/{user_id}")
 async def get_user_scripts(user_id: str):
@@ -184,21 +421,43 @@ async def get_user_plans(user_id: str):
 @app.post("/plan")
 async def create_plan(request: PlanRequest):
     try:
+        # Check trial limit
+        allowed, count = check_trial_limit(request.user_id, "planner")
+        if not allowed:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="You've used your 2 free demo attempts. Sign in or create an account to continue."
+            )
+            
         plan = planner.create_plan(request.goal)
         # Save to history
         save_plan_to_history(request.user_id, plan)
-        return plan
+        
+        # Increment usage
+        increment_trial_usage(request.user_id, "planner")
+        
+        return {**plan, "trial_count": count + 1}
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/generate_script")
 async def generate_script(criteria: ScriptCriteria):
     try:
+        # Check trial limit
+        allowed, count = check_trial_limit(criteria.user_id, "generator")
+        if not allowed:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="You've used your 2 free demo attempts. Sign in or create an account to continue."
+            )
+
         # Step 1: Transform/Enrich input
         structured_input = pipeline.transform_user_input(criteria.idea)
         
         # Merge manual criteria
-        manual_criteria = criteria.dict(exclude_unset=True)
+        manual_criteria = criteria.model_dump(exclude_unset=True)
         # Remove 'idea' as it's not part of the structured_input expected by pipeline.generate_scene
         manual_criteria.pop('idea', None)
         
@@ -219,13 +478,26 @@ async def generate_script(criteria: ScriptCriteria):
         # Save to history
         save_to_history(criteria.user_id, result)
         
-        return result
+        # Increment usage
+        increment_trial_usage(criteria.user_id, "generator")
+        
+        return {**result, "trial_count": count + 1}
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/refine_script")
 async def refine_script(request: RefineRequest):
     try:
+        # Check trial limit
+        allowed, count = check_trial_limit(request.user_id, "generator")
+        if not allowed:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="You've used your 2 free demo attempts. Sign in or create an account to continue."
+            )
+
         new_scene = pipeline.iterate_scene(request.script, request.action)
         if new_scene.startswith("ERROR:"):
             raise HTTPException(status_code=500, detail=new_scene)
@@ -235,7 +507,12 @@ async def refine_script(request: RefineRequest):
         # Save to history
         save_to_history(request.user_id, result)
         
-        return result
+        # Increment usage
+        increment_trial_usage(request.user_id, "generator")
+        
+        return {**result, "trial_count": count + 1}
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

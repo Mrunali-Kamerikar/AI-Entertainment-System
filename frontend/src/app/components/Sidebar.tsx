@@ -127,7 +127,9 @@ export const Sidebar: React.FC = () => {
                   <p style={{ color: '#fff', margin: 0, fontSize: '0.85rem', fontWeight: 600 }}>
                     {user?.username || 'User'}
                   </p>
-                  <p style={{ color: '#555', margin: 0, fontSize: '0.72rem' }}>Premium Member</p>
+                  <p style={{ color: user?.isDemo ? '#E50914' : '#555', margin: 0, fontSize: '0.72rem', fontWeight: user?.isDemo ? 700 : 400 }}>
+                    {user?.isDemo ? 'Demo Mode' : 'Premium Member'}
+                  </p>
                 </motion.div>
               )}
             </AnimatePresence>

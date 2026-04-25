@@ -27,13 +27,6 @@ export const Dashboard: React.FC = () => {
   } = useApp();
   const navigate = useNavigate();
 
-  // Redirect to login if not authenticated
-  useEffect(() => {
-    if (!user) navigate('/');
-  }, [user, navigate]);
-
-  if (!user) return null;
-
   const sidebarWidth = isSidebarOpen ? 256 : 64;
 
   return (

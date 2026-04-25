@@ -1,10 +1,24 @@
-import { createBrowserRouter, Outlet, useRouteError } from 'react-router';
+import { createBrowserRouter, Navigate, Outlet, useLocation, useRouteError } from 'react-router';
 import { Welcome } from './pages/Welcome';
 import { Login } from './pages/Login';
 import { Dashboard } from './pages/Dashboard';
 import { SignUp } from './pages/SignUp';
 import { ForgotPassword } from './pages/ForgotPassword';
 import { Component as ReactComponent, ReactNode, ErrorInfo } from 'react';
+import { useApp } from './context/AppContext';
+
+// Protected Route Component
+const ProtectedRoute = ({ children }: { children: ReactNode }) => {
+  const { user } = useApp();
+  const location = useLocation();
+
+  if (!user) {
+    // Redirect to login but save the attempted location
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return <>{children}</>;
+};
 
 // Error boundary class component for catching React errors
 class ErrorBoundaryClass extends ReactComponent<
@@ -131,6 +145,10 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
+        Component: SignUp,
+      },
+      {
+        path: 'welcome',
         Component: Welcome,
       },
       {
@@ -139,7 +157,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'dashboard',
-        Component: Dashboard,
+        element: (
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        ),
       },
       {
         path: 'signup',
@@ -151,7 +173,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '*',
-        Component: Login,
+        element: <Navigate to="/" replace />,
       },
     ],
   },

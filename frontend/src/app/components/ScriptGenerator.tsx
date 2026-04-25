@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Sparkles, Scroll, FileText, Send, Plus, Trash2, Wand2, RefreshCw, Download, History } from 'lucide-react';
+import { X, Sparkles, Scroll, FileText, Send, Plus, Trash2, Wand2, RefreshCw, Download, History, AlertCircle } from 'lucide-react';
 import { generateScript, refineScript, getUserScripts, ScriptCharacter, ScriptCriteria } from '../services/backend';
+import { useApp } from '../context/AppContext';
+import { useNavigate } from 'react-router';
 
 export const ScriptGenerator: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { user, trialUsage, refreshTrialUsage, activeTool, setActiveTool } = useApp();
+  const navigate = useNavigate();
+  const isOpen = activeTool === 'scriptGenerator';
+  const setIsOpen = (open: boolean) => setActiveTool(open ? 'scriptGenerator' : null);
   const [idea, setIdea] = useState('');
   const [language, setLanguage] = useState('English');
   const [length, setLength] = useState('Medium (3-5 pages)');
@@ -17,8 +22,13 @@ export const ScriptGenerator: React.FC = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [activeIteration, setActiveIteration] = useState<'intense' | 'humorous' | 'dialogue' | null>(null);
   const [generatedScript, setGeneratedScript] = useState<string | null>(null);
-  const [activeView, setActiveView] = useState<'form' | 'script' | 'history'>('form');
+  const [activeView, setActiveView] = useState<'form' | 'loading' | 'script' | 'history'>('form');
   const [history, setHistory] = useState<any[]>([]);
+  const [showUpgrade, setShowUpgrade] = useState(false);
+
+  const trialLimit = 2;
+  const currentUsage = trialUsage.generator;
+  const isLimitReached = user?.isDemo && currentUsage >= trialLimit;
 
   useEffect(() => {
     const userId = localStorage.getItem('userId') || 'guest';
@@ -49,8 +59,13 @@ export const ScriptGenerator: React.FC = () => {
   const handleGenerate = async () => {
     if (!idea.trim()) return;
 
+    if (isLimitReached) {
+      setShowUpgrade(true);
+      return;
+    }
+
     setIsGenerating(true);
-    const userId = localStorage.getItem('userId') || 'guest';
+    const userId = user?.userId || 'guest';
     const criteria: ScriptCriteria = {
       idea,
       user_id: userId,
@@ -64,23 +79,61 @@ export const ScriptGenerator: React.FC = () => {
       characters: characters.filter(c => c.name.trim() !== '')
     };
 
-    const result = await generateScript(criteria);
-    setGeneratedScript(result.script);
-    setIsGenerating(false);
-    setActiveView('script');
-    loadHistory(userId); // Refresh history
+    try {
+      const result = await generateScript(criteria);
+      setGeneratedScript(result.script);
+      
+      // Update trial usage counter
+      if (user?.isDemo) {
+        await refreshTrialUsage();
+      }
+
+      setIsGenerating(false);
+      setActiveView('script');
+      loadHistory(userId); // Refresh history
+    } catch (err: any) {
+      setIsGenerating(false);
+      if (err.message?.includes('demo attempts')) {
+        setShowUpgrade(true);
+      } else {
+        console.error('Error generating script:', err);
+      }
+    }
   };
 
   const handleRefine = async (action: 'intense' | 'humorous' | 'dialogue') => {
     if (!generatedScript) return;
+
+    if (isLimitReached) {
+      setShowUpgrade(true);
+      return;
+    }
+
     setIsGenerating(true);
     setActiveIteration(action);
-    const result = await refineScript(generatedScript, action);
-    setGeneratedScript(result.script);
-    setIsGenerating(false);
-    setActiveIteration(null);
-    const userId = localStorage.getItem('userId') || 'guest';
-    loadHistory(userId); // Refresh history
+    const userId = user?.userId || 'guest';
+    
+    try {
+      const result = await refineScript(generatedScript, action);
+      setGeneratedScript(result.script);
+      
+      // Update trial usage counter
+      if (user?.isDemo) {
+        await refreshTrialUsage();
+      }
+
+      setIsGenerating(false);
+      setActiveIteration(null);
+      loadHistory(userId); // Refresh history
+    } catch (err: any) {
+      setIsGenerating(false);
+      setActiveIteration(null);
+      if (err.message?.includes('demo attempts')) {
+        setShowUpgrade(true);
+      } else {
+        console.error('Error refining script:', err);
+      }
+    }
   };
 
   const handleDownload = () => {
@@ -111,21 +164,21 @@ export const ScriptGenerator: React.FC = () => {
     <>
       {/* Floating Script Generator Button */}
       <AnimatePresence>
-        {!isOpen && (
+        {activeTool === null && (
           <motion.button
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
+            initial={{ scale: 0, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0, opacity: 0, y: 20 }}
             whileHover={{ scale: 1.1, boxShadow: '0 12px 32px rgba(229, 9, 20, 0.5)' }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsOpen(true)}
-            className="fixed bottom-6 right-28 w-16 h-16 rounded-full flex items-center justify-center z-50 border border-white/10"
+            className="fixed bottom-6 right-24 md:right-28 w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center z-50 border border-white/10"
             style={{
               background: 'linear-gradient(135deg, #E50914 0%, #b30000 100%)',
               boxShadow: '0 8px 24px rgba(229, 9, 20, 0.4)',
             }}
           >
-            <Scroll size={28} color="#fff" />
+            <Scroll size={24} className="md:w-7 md:h-7 text-white" />
             <motion.div
               animate={{ scale: [1, 1.3, 1], opacity: [0.5, 0, 0.5] }}
               transition={{ duration: 2, repeat: Infinity }}
@@ -194,7 +247,46 @@ export const ScriptGenerator: React.FC = () => {
 
             {/* Content Area */}
             <div className="flex-1 overflow-y-auto p-5 text-white">
-              {activeView === 'history' ? (
+              {showUpgrade ? (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="flex flex-col items-center justify-center py-10 text-center space-y-6"
+                >
+                  <div className="w-16 h-16 rounded-full bg-red-600/20 flex items-center justify-center border border-red-600/30">
+                    <Sparkles size={32} className="text-red-500" />
+                  </div>
+                  <div className="space-y-2">
+                    <h4 className="text-xl font-bold text-white">Free Trial Exhausted</h4>
+                    <p className="text-slate-400 text-sm leading-relaxed">
+                      You've used your {trialLimit} demo attempts for the Script Generator. 
+                      Upgrade to a full account to continue creating professional scripts.
+                    </p>
+                  </div>
+                  <div className="flex flex-col w-full gap-3 pt-2">
+                    <motion.button
+                      whileHover={{ scale: 1.02, backgroundColor: '#E50914' }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => navigate('/signup')}
+                      className="w-full bg-red-600 text-white font-bold py-3.5 rounded-xl border-0 cursor-pointer shadow-lg"
+                    >
+                      Sign Up Now
+                    </motion.button>
+                    <button
+                      onClick={() => navigate('/login')}
+                      className="w-full bg-transparent text-slate-300 font-bold py-2 border-0 cursor-pointer hover:text-white transition-colors text-sm"
+                    >
+                      Already have an account? Sign In
+                    </button>
+                    <button
+                      onClick={() => setShowUpgrade(false)}
+                      className="text-slate-500 text-xs hover:text-slate-400 underline pt-1 bg-transparent border-0 cursor-pointer"
+                    >
+                      Maybe later
+                    </button>
+                  </div>
+                </motion.div>
+              ) : activeView === 'history' ? (
                 <div className="flex flex-col gap-4">
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="text-sm font-bold uppercase tracking-widest text-gray-400">Recent Scripts</h4>
@@ -239,6 +331,14 @@ export const ScriptGenerator: React.FC = () => {
                 </div>
               ) : activeView === 'form' ? (
                 <div className="flex flex-col gap-4">
+                  {user?.isDemo && (
+                    <div className="flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg bg-red-600/10 border border-red-600/20 w-fit mx-auto mb-2">
+                      <Sparkles size={12} className="text-red-500" />
+                      <span className="text-[10px] font-bold text-red-500 uppercase tracking-widest">
+                        Demo Limit: {currentUsage}/{trialLimit} Attempts Used
+                      </span>
+                    </div>
+                  )}
                   <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Your Scene Idea</label>
                     <textarea 
