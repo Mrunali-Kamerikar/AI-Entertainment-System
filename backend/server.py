@@ -245,7 +245,7 @@ async def root():
     return {"message": "Entertainment Script Generator API is running"}
 
 @app.get("/health")
-def health():
+async def health():
     return {"status": "ok"}
 
 @app.post("/signup")
