@@ -13,3 +13,4 @@ langchain-google-genai
 langchain-core
 passlib[bcrypt]
 pyjwt
+email-validator
