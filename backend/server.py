@@ -244,6 +244,10 @@ class RatingRequest(BaseModel):
 async def root():
     return {"message": "Entertainment Script Generator API is running"}
 
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
 @app.post("/signup")
 async def signup(request: SignUpRequest):
     users = load_users()
