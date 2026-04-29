@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, status, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
 from typing import List, Optional, Dict, Any
@@ -24,16 +24,21 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 app = FastAPI(title="Entertainment Script Generator API")
 
-# Enable CORS
+# Enable CORS - Production Safe Configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # For production, replace with actual frontend URL
+    allow_origins=["*"],  # Set to ["*"] for deployment testing as requested
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
+# API Router with prefix
+api_router = APIRouter(prefix="/api")
+
 # Initialize RAG and Pipeline
+# ... (rest of the initialization code)
 rag = RAGManager()
 # Initialize with sample data if empty (like in main.py)
 if rag.index.ntotal == 0:
@@ -244,11 +249,11 @@ class RatingRequest(BaseModel):
 async def root():
     return {"message": "Entertainment Script Generator API is running"}
 
-@app.get("/health")
+@api_router.get("/health")
 async def health():
     return {"status": "ok"}
 
-@app.post("/signup")
+@api_router.post("/signup")
 async def signup(request: SignUpRequest):
     users = load_users()
     
@@ -287,7 +292,7 @@ async def signup(request: SignUpRequest):
         "token": token
     }
 
-@app.post("/login")
+@api_router.post("/login")
 async def login(request: LoginRequest):
     users = load_users()
     
@@ -328,7 +333,7 @@ async def login(request: LoginRequest):
 
 # --- User Engagement Endpoints ---
 
-@app.get("/engagement/{user_id}")
+@api_router.get("/engagement/{user_id}")
 async def get_engagement(user_id: str):
     engagement = load_engagement()
     trial_usage = load_trial_usage().get(user_id, {"planner": 0, "generator": 0})
@@ -337,7 +342,7 @@ async def get_engagement(user_id: str):
         "trial_usage": trial_usage
     }
 
-@app.post("/watchlist/add")
+@api_router.post("/watchlist/add")
 async def add_to_watchlist(request: EngagementRequest):
     if request.user_id == "user_demo" or request.user_id.startswith("guest_"):
         return {"success": False, "message": "Demo mode restricted"}
@@ -354,7 +359,7 @@ async def add_to_watchlist(request: EngagementRequest):
     
     return {"success": True, "watchlist": engagement[user_id]["watchlist"]}
 
-@app.post("/watchlist/remove")
+@api_router.post("/watchlist/remove")
 async def remove_from_watchlist(request: EngagementRequest):
     if request.user_id == "user_demo" or request.user_id.startswith("guest_"):
         return {"success": False, "message": "Demo mode restricted"}
@@ -367,7 +372,7 @@ async def remove_from_watchlist(request: EngagementRequest):
     
     return {"success": True, "watchlist": engagement.get(user_id, {}).get("watchlist", [])}
 
-@app.post("/favorites/toggle")
+@api_router.post("/favorites/toggle")
 async def toggle_favorite(request: EngagementRequest):
     if request.user_id == "user_demo" or request.user_id.startswith("guest_"):
         return {"success": False, "message": "Demo mode restricted"}
@@ -386,7 +391,7 @@ async def toggle_favorite(request: EngagementRequest):
     save_engagement(engagement)
     return {"success": True, "favorites": favs}
 
-@app.post("/ratings/submit")
+@api_router.post("/ratings/submit")
 async def submit_rating_endpoint(request: RatingRequest):
     if request.user_id == "user_demo" or request.user_id.startswith("guest_"):
         return {"success": False, "message": "Demo mode restricted"}
@@ -400,7 +405,7 @@ async def submit_rating_endpoint(request: RatingRequest):
     save_engagement(engagement)
     return {"success": True, "ratings": engagement[user_id]["ratings"]}
 
-@app.get("/get_user_scripts/{user_id}")
+@api_router.get("/get_user_scripts/{user_id}")
 async def get_user_scripts(user_id: str):
     try:
         if os.path.exists(SCRIPTS_FILE):
@@ -411,7 +416,7 @@ async def get_user_scripts(user_id: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/get_user_plans/{user_id}")
+@api_router.get("/get_user_plans/{user_id}")
 async def get_user_plans(user_id: str):
     try:
         if os.path.exists(PLANS_FILE):
@@ -422,7 +427,7 @@ async def get_user_plans(user_id: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/plan")
+@api_router.post("/plan")
 async def create_plan(request: PlanRequest):
     try:
         # Check trial limit
@@ -446,7 +451,7 @@ async def create_plan(request: PlanRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/generate_script")
+@api_router.post("/generate_script")
 async def generate_script(criteria: ScriptCriteria):
     try:
         # Check trial limit
@@ -491,7 +496,7 @@ async def generate_script(criteria: ScriptCriteria):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/refine_script")
+@api_router.post("/refine_script")
 async def refine_script(request: RefineRequest):
     try:
         # Check trial limit
@@ -519,6 +524,9 @@ async def refine_script(request: RefineRequest):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+# Include the router
+app.include_router(api_router)
 
 if __name__ == "__main__":
     import uvicorn
