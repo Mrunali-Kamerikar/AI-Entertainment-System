@@ -25,8 +25,8 @@ export const TMDB_CONFIG = {
 
 // Backend API Configuration
 export const BACKEND_CONFIG = {
-  // Use VITE_BACKEND_URL or the provided AWS ALB DNS
-  baseUrl: getEnvVar('VITE_BACKEND_URL', 'http://ai-entertainment-alb-873107530.ap-south-1.elb.amazonaws.com'),
+  // Use /api for relative path (Industry Standard for Docker/ALB)
+  baseUrl: getEnvVar('VITE_BACKEND_URL', '/api'),
 };
 
 // Gemini AI Configuration
