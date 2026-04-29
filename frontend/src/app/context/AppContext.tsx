@@ -224,9 +224,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   }, []);
 
   const enterDemoMode = useCallback(() => {
+    // Generate or retrieve a persistent guest ID for this browser
+    let guestId = localStorage.getItem('cineverse-guest-id');
+    if (!guestId) {
+      guestId = `guest_${Math.random().toString(36).substring(2, 15)}${Math.random().toString(36).substring(2, 15)}`;
+      localStorage.setItem('cineverse-guest-id', guestId);
+    }
+
     const demoUser = {
       username: 'Demo User',
-      userId: 'user_demo',
+      userId: guestId,
       email: 'demo@cineverse.ai',
       isDemo: true
     };
@@ -243,7 +250,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     });
 
     localStorage.setItem('cineverse-user', JSON.stringify(demoUser));
-    console.log('🎮 Entered Demo Mode');
+    console.log('🎮 Entered Demo Mode with ID:', guestId);
   }, []);
 
   const refreshTrialUsage = useCallback(async () => {
@@ -262,6 +269,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (savedUser && !user) {
       try {
         const parsed = JSON.parse(savedUser);
+        
+        // Migrate old global demo user to new session-scoped guest ID
+        if (parsed.userId === 'user_demo') {
+          enterDemoMode();
+          return;
+        }
+
         setUser(parsed);
         if (savedToken) {
           setAuthToken(savedToken);

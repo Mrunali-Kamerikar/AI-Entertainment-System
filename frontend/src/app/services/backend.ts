@@ -282,14 +282,10 @@ export interface ScriptCriteria {
 }
 
 export const generateScript = async (criteria: ScriptCriteria) => {
-  // If user_id is not provided, use a default or get from localStorage
-  const userId = criteria.user_id || localStorage.getItem('userId') || 'guest';
-  const payload = { ...criteria, user_id: userId };
-
   const response = await fetch(`${BACKEND_URL}/generate_script`, {
     method: 'POST',
     headers: getHeaders(),
-    body: JSON.stringify(payload),
+    body: JSON.stringify(criteria),
   });
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({ detail: 'Unknown error' }));
@@ -298,8 +294,7 @@ export const generateScript = async (criteria: ScriptCriteria) => {
   return await response.json();
 };
 
-export const refineScript = async (script: string, action: 'intense' | 'humorous' | 'dialogue') => {
-  const userId = localStorage.getItem('userId') || 'guest';
+export const refineScript = async (script: string, action: 'intense' | 'humorous' | 'dialogue', userId: string) => {
   const response = await fetch(`${BACKEND_URL}/refine_script`, {
     method: 'POST',
     headers: getHeaders(),
@@ -346,8 +341,7 @@ export interface ExecutionSchedule {
   full_text_plan?: string;
 }
 
-export const createExecutionPlan = async (goal: string) => {
-  const userId = localStorage.getItem('userId') || 'guest';
+export const createExecutionPlan = async (goal: string, userId: string) => {
   try {
     const response = await fetch(`${BACKEND_URL}/plan`, {
       method: 'POST',
@@ -365,8 +359,7 @@ export const createExecutionPlan = async (goal: string) => {
   }
 };
 
-export const getUserPlans = async () => {
-  const userId = localStorage.getItem('userId') || 'guest';
+export const getUserPlans = async (userId: string) => {
   try {
     const response = await fetch(`${BACKEND_URL}/get_user_plans/${userId}`, {
       headers: getHeaders(),

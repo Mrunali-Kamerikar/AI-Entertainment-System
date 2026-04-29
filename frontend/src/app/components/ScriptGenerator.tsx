@@ -31,11 +31,10 @@ export const ScriptGenerator: React.FC = () => {
   const isLimitReached = user?.isDemo && currentUsage >= trialLimit;
 
   useEffect(() => {
-    const userId = localStorage.getItem('userId') || 'guest';
-    if (userId && isOpen) {
-      loadHistory(userId);
+    if (user?.userId && isOpen) {
+      loadHistory(user.userId);
     }
-  }, [isOpen]);
+  }, [isOpen, user?.userId]);
 
   const loadHistory = async (userId: string) => {
     const scripts = await getUserScripts(userId);
@@ -102,7 +101,7 @@ export const ScriptGenerator: React.FC = () => {
   };
 
   const handleRefine = async (action: 'intense' | 'humorous' | 'dialogue') => {
-    if (!generatedScript) return;
+    if (!generatedScript || !user) return;
 
     if (isLimitReached) {
       setShowUpgrade(true);
@@ -111,10 +110,10 @@ export const ScriptGenerator: React.FC = () => {
 
     setIsGenerating(true);
     setActiveIteration(action);
-    const userId = user?.userId || 'guest';
+    const userId = user.userId;
     
     try {
-      const result = await refineScript(generatedScript, action);
+      const result = await refineScript(generatedScript, action, userId);
       setGeneratedScript(result.script);
       
       // Update trial usage counter

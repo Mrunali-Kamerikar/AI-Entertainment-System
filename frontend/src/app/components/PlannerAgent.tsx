@@ -30,9 +30,10 @@ export const PlannerAgent: React.FC = () => {
   }, [showHistory, isOpen]);
 
   const loadHistory = async () => {
+    if (!user) return;
     setIsLoadingHistory(true);
     try {
-      const data = await getUserPlans();
+      const data = await getUserPlans(user.userId);
       setHistory(data);
     } catch (err) {
       console.error('Failed to load history:', err);
@@ -42,7 +43,7 @@ export const PlannerAgent: React.FC = () => {
   };
 
   const handleCreatePlan = async () => {
-    if (!goal.trim()) return;
+    if (!goal.trim() || !user) return;
     
     if (isLimitReached) {
       setShowUpgrade(true);
@@ -52,7 +53,7 @@ export const PlannerAgent: React.FC = () => {
     setIsPlanning(true);
     setError(null);
     try {
-      const result = await createExecutionPlan(goal);
+      const result = await createExecutionPlan(goal, user.userId);
       setPlan(result);
       
       // Update trial usage counter

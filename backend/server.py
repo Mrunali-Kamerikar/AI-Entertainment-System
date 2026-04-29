@@ -91,7 +91,7 @@ def save_trial_usage(data):
         json.dump(data, f, indent=4)
 
 def check_trial_limit(user_id: str, feature: str):
-    if user_id != "user_demo":
+    if user_id != "user_demo" and not user_id.startswith("guest_"):
         return True, 0  # Authenticated users have no limit
     
     usage = load_trial_usage()
@@ -106,7 +106,7 @@ def check_trial_limit(user_id: str, feature: str):
     return True, current
 
 def increment_trial_usage(user_id: str, feature: str):
-    if user_id != "user_demo":
+    if user_id != "user_demo" and not user_id.startswith("guest_"):
         return
     
     usage = load_trial_usage()
@@ -339,7 +339,7 @@ async def get_engagement(user_id: str):
 
 @app.post("/watchlist/add")
 async def add_to_watchlist(request: EngagementRequest):
-    if request.user_id == "user_demo":
+    if request.user_id == "user_demo" or request.user_id.startswith("guest_"):
         return {"success": False, "message": "Demo mode restricted"}
     
     engagement = load_engagement()
@@ -356,7 +356,7 @@ async def add_to_watchlist(request: EngagementRequest):
 
 @app.post("/watchlist/remove")
 async def remove_from_watchlist(request: EngagementRequest):
-    if request.user_id == "user_demo":
+    if request.user_id == "user_demo" or request.user_id.startswith("guest_"):
         return {"success": False, "message": "Demo mode restricted"}
         
     engagement = load_engagement()
@@ -369,7 +369,7 @@ async def remove_from_watchlist(request: EngagementRequest):
 
 @app.post("/favorites/toggle")
 async def toggle_favorite(request: EngagementRequest):
-    if request.user_id == "user_demo":
+    if request.user_id == "user_demo" or request.user_id.startswith("guest_"):
         return {"success": False, "message": "Demo mode restricted"}
         
     engagement = load_engagement()
@@ -388,7 +388,7 @@ async def toggle_favorite(request: EngagementRequest):
 
 @app.post("/ratings/submit")
 async def submit_rating_endpoint(request: RatingRequest):
-    if request.user_id == "user_demo":
+    if request.user_id == "user_demo" or request.user_id.startswith("guest_"):
         return {"success": False, "message": "Demo mode restricted"}
         
     engagement = load_engagement()

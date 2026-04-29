@@ -8007,3 +8007,214 @@ AttributeError: module 'bcrypt' has no attribute '__about__'
 2026-04-26 14:28:21,062 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/1_Pooling%2Fconfig.json "HTTP/1.1 200 OK"
 2026-04-26 14:28:21,357 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2 "HTTP/1.1 200 OK"
 2026-04-26 14:28:24,841 - PlannerAgent - INFO - Initialized 3 API clients for rotation.
+2026-04-28 10:21:25,510 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2026-04-28 10:21:25,511 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-28 10:21:26,300 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/modules.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 10:21:26,343 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/modules.json "HTTP/1.1 200 OK"
+2026-04-28 10:21:26,621 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config_sentence_transformers.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 10:21:26,666 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config_sentence_transformers.json "HTTP/1.1 200 OK"
+2026-04-28 10:21:26,938 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config_sentence_transformers.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 10:21:26,981 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config_sentence_transformers.json "HTTP/1.1 200 OK"
+2026-04-28 10:21:27,262 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 10:21:27,563 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/README.md "HTTP/1.1 200 OK"
+2026-04-28 10:21:27,845 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/modules.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 10:21:27,846 - huggingface_hub.utils._http - WARNING - Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-28 10:21:27,889 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/modules.json "HTTP/1.1 200 OK"
+2026-04-28 10:21:28,163 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/sentence_bert_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 10:21:28,208 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/sentence_bert_config.json "HTTP/1.1 200 OK"
+2026-04-28 10:21:28,477 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/adapter_config.json "HTTP/1.1 404 Not Found"
+2026-04-28 10:21:28,815 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 10:21:28,860 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config.json "HTTP/1.1 200 OK"
+2026-04-28 10:21:29,398 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 10:21:29,444 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config.json "HTTP/1.1 200 OK"
+2026-04-28 10:21:29,727 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 10:21:29,773 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-28 10:21:30,051 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-28 10:21:30,344 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-28 10:21:30,754 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/1_Pooling/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 10:21:30,798 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/1_Pooling%2Fconfig.json "HTTP/1.1 200 OK"
+2026-04-28 10:21:31,070 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2 "HTTP/1.1 200 OK"
+2026-04-28 10:21:36,139 - ScriptPipeline - INFO - Initialized 3 API clients for rotation.
+2026-04-28 10:21:36,140 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2026-04-28 10:21:36,141 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-28 10:21:36,527 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/modules.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 10:21:36,574 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/modules.json "HTTP/1.1 200 OK"
+2026-04-28 10:21:36,864 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config_sentence_transformers.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 10:21:36,914 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config_sentence_transformers.json "HTTP/1.1 200 OK"
+2026-04-28 10:21:37,189 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config_sentence_transformers.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 10:21:37,239 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config_sentence_transformers.json "HTTP/1.1 200 OK"
+2026-04-28 10:21:37,523 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 10:21:37,571 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/README.md "HTTP/1.1 200 OK"
+2026-04-28 10:21:37,851 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/modules.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 10:21:37,901 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/modules.json "HTTP/1.1 200 OK"
+2026-04-28 10:21:38,187 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/sentence_bert_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 10:21:38,239 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/sentence_bert_config.json "HTTP/1.1 200 OK"
+2026-04-28 10:21:38,515 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/adapter_config.json "HTTP/1.1 404 Not Found"
+2026-04-28 10:21:38,790 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 10:21:38,837 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config.json "HTTP/1.1 200 OK"
+2026-04-28 10:21:39,222 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 10:21:39,269 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config.json "HTTP/1.1 200 OK"
+2026-04-28 10:21:39,540 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 10:21:39,589 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-28 10:21:39,864 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-28 10:21:40,147 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-28 10:21:40,526 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/1_Pooling/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 10:21:40,575 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/1_Pooling%2Fconfig.json "HTTP/1.1 200 OK"
+2026-04-28 10:21:40,852 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2 "HTTP/1.1 200 OK"
+2026-04-28 10:21:46,062 - PlannerAgent - INFO - Initialized 3 API clients for rotation.
+2026-04-28 10:47:42,189 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-1.5-flash, Attempt 1)
+2026-04-28 10:47:42,207 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:42,551 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-04-28 10:47:42,558 - PlannerAgent - INFO - Calling LLM (Key Index 1, Model gemini-1.5-flash, Attempt 2)
+2026-04-28 10:47:42,558 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:43,073 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-04-28 10:47:43,074 - PlannerAgent - INFO - Calling LLM (Key Index 2, Model gemini-1.5-flash, Attempt 3)
+2026-04-28 10:47:43,075 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:43,446 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-04-28 10:47:43,948 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-1.5-flash-8b, Attempt 4)
+2026-04-28 10:47:43,949 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:44,091 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent "HTTP/1.1 404 Not Found"
+2026-04-28 10:47:44,093 - PlannerAgent - INFO - Calling LLM (Key Index 1, Model gemini-1.5-flash-8b, Attempt 5)
+2026-04-28 10:47:44,094 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:44,247 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent "HTTP/1.1 404 Not Found"
+2026-04-28 10:47:44,249 - PlannerAgent - INFO - Calling LLM (Key Index 2, Model gemini-1.5-flash-8b, Attempt 6)
+2026-04-28 10:47:44,255 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:44,352 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent "HTTP/1.1 400 Bad Request"
+2026-04-28 10:47:44,853 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-2.0-flash, Attempt 7)
+2026-04-28 10:47:44,854 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:45,004 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-04-28 10:47:45,006 - PlannerAgent - WARNING - Quota exhausted for key 0 with model gemini-2.0-flash. Rotating...
+2026-04-28 10:47:45,007 - PlannerAgent - INFO - Calling LLM (Key Index 1, Model gemini-2.0-flash, Attempt 8)
+2026-04-28 10:47:45,007 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:45,154 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-04-28 10:47:45,157 - PlannerAgent - WARNING - Quota exhausted for key 1 with model gemini-2.0-flash. Rotating...
+2026-04-28 10:47:45,157 - PlannerAgent - INFO - Calling LLM (Key Index 2, Model gemini-2.0-flash, Attempt 9)
+2026-04-28 10:47:45,157 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:45,259 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-04-28 10:47:45,760 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-1.5-pro, Attempt 10)
+2026-04-28 10:47:45,761 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:45,892 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent "HTTP/1.1 404 Not Found"
+2026-04-28 10:47:45,893 - PlannerAgent - INFO - Calling LLM (Key Index 1, Model gemini-1.5-pro, Attempt 11)
+2026-04-28 10:47:45,894 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:46,041 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent "HTTP/1.1 404 Not Found"
+2026-04-28 10:47:46,043 - PlannerAgent - INFO - Calling LLM (Key Index 2, Model gemini-1.5-pro, Attempt 12)
+2026-04-28 10:47:46,043 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:46,143 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent "HTTP/1.1 400 Bad Request"
+2026-04-28 10:47:46,647 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-2.0-flash-lite-preview-02-05, Attempt 13)
+2026-04-28 10:47:46,648 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:46,795 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite-preview-02-05:generateContent "HTTP/1.1 404 Not Found"
+2026-04-28 10:47:46,797 - PlannerAgent - INFO - Calling LLM (Key Index 1, Model gemini-2.0-flash-lite-preview-02-05, Attempt 14)
+2026-04-28 10:47:46,797 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:46,939 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite-preview-02-05:generateContent "HTTP/1.1 404 Not Found"
+2026-04-28 10:47:46,941 - PlannerAgent - INFO - Calling LLM (Key Index 2, Model gemini-2.0-flash-lite-preview-02-05, Attempt 15)
+2026-04-28 10:47:46,941 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:47,040 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite-preview-02-05:generateContent "HTTP/1.1 400 Bad Request"
+2026-04-28 10:47:47,542 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-flash-latest, Attempt 16)
+2026-04-28 10:47:47,543 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:49,027 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
+2026-04-28 10:47:49,481 - PlannerAgent - INFO - Extracted constraints: 3-day duration, promotion campaign, Sci-Fi genre, new movie release
+2026-04-28 10:47:49,482 - PlannerAgent - INFO - Pass 1: Generating initial plan for: Plan a 3-day promotion campaign for a new Sci-Fi movie release
+2026-04-28 10:47:49,482 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-1.5-flash, Attempt 1)
+2026-04-28 10:47:49,482 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:49,634 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-04-28 10:47:49,635 - PlannerAgent - INFO - Calling LLM (Key Index 1, Model gemini-1.5-flash, Attempt 2)
+2026-04-28 10:47:49,635 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:49,790 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-04-28 10:47:49,791 - PlannerAgent - INFO - Calling LLM (Key Index 2, Model gemini-1.5-flash, Attempt 3)
+2026-04-28 10:47:49,791 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:49,890 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-04-28 10:47:50,392 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-1.5-flash-8b, Attempt 4)
+2026-04-28 10:47:50,393 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:50,523 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent "HTTP/1.1 404 Not Found"
+2026-04-28 10:47:50,525 - PlannerAgent - INFO - Calling LLM (Key Index 1, Model gemini-1.5-flash-8b, Attempt 5)
+2026-04-28 10:47:50,526 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:50,662 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent "HTTP/1.1 404 Not Found"
+2026-04-28 10:47:50,664 - PlannerAgent - INFO - Calling LLM (Key Index 2, Model gemini-1.5-flash-8b, Attempt 6)
+2026-04-28 10:47:50,664 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:50,770 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent "HTTP/1.1 400 Bad Request"
+2026-04-28 10:47:51,273 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-2.0-flash, Attempt 7)
+2026-04-28 10:47:51,274 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:51,424 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-04-28 10:47:51,426 - PlannerAgent - WARNING - Quota exhausted for key 0 with model gemini-2.0-flash. Rotating...
+2026-04-28 10:47:51,426 - PlannerAgent - INFO - Calling LLM (Key Index 1, Model gemini-2.0-flash, Attempt 8)
+2026-04-28 10:47:51,427 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:51,557 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-04-28 10:47:51,557 - PlannerAgent - WARNING - Quota exhausted for key 1 with model gemini-2.0-flash. Rotating...
+2026-04-28 10:47:51,557 - PlannerAgent - INFO - Calling LLM (Key Index 2, Model gemini-2.0-flash, Attempt 9)
+2026-04-28 10:47:51,557 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:51,658 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-04-28 10:47:52,160 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-1.5-pro, Attempt 10)
+2026-04-28 10:47:52,161 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:52,293 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent "HTTP/1.1 404 Not Found"
+2026-04-28 10:47:52,294 - PlannerAgent - INFO - Calling LLM (Key Index 1, Model gemini-1.5-pro, Attempt 11)
+2026-04-28 10:47:52,294 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:52,419 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent "HTTP/1.1 404 Not Found"
+2026-04-28 10:47:52,422 - PlannerAgent - INFO - Calling LLM (Key Index 2, Model gemini-1.5-pro, Attempt 12)
+2026-04-28 10:47:52,422 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:52,524 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent "HTTP/1.1 400 Bad Request"
+2026-04-28 10:47:53,029 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-2.0-flash-lite-preview-02-05, Attempt 13)
+2026-04-28 10:47:53,029 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:53,163 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite-preview-02-05:generateContent "HTTP/1.1 404 Not Found"
+2026-04-28 10:47:53,165 - PlannerAgent - INFO - Calling LLM (Key Index 1, Model gemini-2.0-flash-lite-preview-02-05, Attempt 14)
+2026-04-28 10:47:53,165 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:53,292 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite-preview-02-05:generateContent "HTTP/1.1 404 Not Found"
+2026-04-28 10:47:53,294 - PlannerAgent - INFO - Calling LLM (Key Index 2, Model gemini-2.0-flash-lite-preview-02-05, Attempt 15)
+2026-04-28 10:47:53,294 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:53,391 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite-preview-02-05:generateContent "HTTP/1.1 400 Bad Request"
+2026-04-28 10:47:53,892 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-flash-latest, Attempt 16)
+2026-04-28 10:47:53,893 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:47:59,280 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-04-28 10:47:59,783 - PlannerAgent - INFO - Calling LLM (Key Index 1, Model gemini-flash-latest, Attempt 17)
+2026-04-28 10:47:59,783 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:48:30,073 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
+2026-04-28 10:48:30,077 - PlannerAgent - INFO - Pass 2: Optimizing plan...
+2026-04-28 10:48:30,077 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-1.5-flash, Attempt 1)
+2026-04-28 10:48:30,078 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:48:30,279 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-04-28 10:48:30,279 - PlannerAgent - INFO - Calling LLM (Key Index 1, Model gemini-1.5-flash, Attempt 2)
+2026-04-28 10:48:30,280 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:48:30,530 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-04-28 10:48:30,532 - PlannerAgent - INFO - Calling LLM (Key Index 2, Model gemini-1.5-flash, Attempt 3)
+2026-04-28 10:48:30,533 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:48:30,715 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-04-28 10:48:31,219 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-1.5-flash-8b, Attempt 4)
+2026-04-28 10:48:31,219 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:48:31,357 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent "HTTP/1.1 404 Not Found"
+2026-04-28 10:48:31,358 - PlannerAgent - INFO - Calling LLM (Key Index 1, Model gemini-1.5-flash-8b, Attempt 5)
+2026-04-28 10:48:31,359 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:48:31,519 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent "HTTP/1.1 404 Not Found"
+2026-04-28 10:48:31,521 - PlannerAgent - INFO - Calling LLM (Key Index 2, Model gemini-1.5-flash-8b, Attempt 6)
+2026-04-28 10:48:31,521 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:48:31,632 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent "HTTP/1.1 400 Bad Request"
+2026-04-28 10:48:32,135 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-2.0-flash, Attempt 7)
+2026-04-28 10:48:32,136 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:48:32,272 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-04-28 10:48:32,273 - PlannerAgent - WARNING - Quota exhausted for key 0 with model gemini-2.0-flash. Rotating...
+2026-04-28 10:48:32,273 - PlannerAgent - INFO - Calling LLM (Key Index 1, Model gemini-2.0-flash, Attempt 8)
+2026-04-28 10:48:32,274 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:48:32,438 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-04-28 10:48:32,441 - PlannerAgent - WARNING - Quota exhausted for key 1 with model gemini-2.0-flash. Rotating...
+2026-04-28 10:48:32,441 - PlannerAgent - INFO - Calling LLM (Key Index 2, Model gemini-2.0-flash, Attempt 9)
+2026-04-28 10:48:32,441 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:48:32,551 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-04-28 10:48:33,053 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-1.5-pro, Attempt 10)
+2026-04-28 10:48:33,054 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:48:33,202 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent "HTTP/1.1 404 Not Found"
+2026-04-28 10:48:33,204 - PlannerAgent - INFO - Calling LLM (Key Index 1, Model gemini-1.5-pro, Attempt 11)
+2026-04-28 10:48:33,204 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:48:33,352 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent "HTTP/1.1 404 Not Found"
+2026-04-28 10:48:33,354 - PlannerAgent - INFO - Calling LLM (Key Index 2, Model gemini-1.5-pro, Attempt 12)
+2026-04-28 10:48:33,354 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:48:33,629 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent "HTTP/1.1 400 Bad Request"
+2026-04-28 10:48:34,131 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-2.0-flash-lite-preview-02-05, Attempt 13)
+2026-04-28 10:48:34,132 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:48:34,274 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite-preview-02-05:generateContent "HTTP/1.1 404 Not Found"
+2026-04-28 10:48:34,276 - PlannerAgent - INFO - Calling LLM (Key Index 1, Model gemini-2.0-flash-lite-preview-02-05, Attempt 14)
+2026-04-28 10:48:34,276 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:48:34,415 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite-preview-02-05:generateContent "HTTP/1.1 404 Not Found"
+2026-04-28 10:48:34,417 - PlannerAgent - INFO - Calling LLM (Key Index 2, Model gemini-2.0-flash-lite-preview-02-05, Attempt 15)
+2026-04-28 10:48:34,418 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:48:34,527 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite-preview-02-05:generateContent "HTTP/1.1 400 Bad Request"
+2026-04-28 10:48:35,029 - PlannerAgent - INFO - Calling LLM (Key Index 0, Model gemini-flash-latest, Attempt 16)
+2026-04-28 10:48:35,030 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-04-28 10:48:51,675 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
