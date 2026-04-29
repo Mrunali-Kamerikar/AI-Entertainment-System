@@ -28,7 +28,7 @@ export default defineConfig({
     proxy: {
       // Proxy API requests to backend during development
       '/api': {
-        target: process.env.VITE_BACKEND_URL || 'http://65.0.128.32:8000',
+        target: process.env.VITE_BACKEND_URL || 'http://localhost:8000',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
