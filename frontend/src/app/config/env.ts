@@ -25,8 +25,8 @@ export const TMDB_CONFIG = {
 
 // Backend API Configuration
 export const BACKEND_CONFIG = {
-  // Use /api proxy for development, and VITE_BACKEND_URL for production
-  baseUrl: getEnvVar('VITE_BACKEND_URL', 'http://65.0.128.32:8000'),
+  // Use VITE_BACKEND_URL or the provided AWS ALB DNS
+  baseUrl: getEnvVar('VITE_BACKEND_URL', 'http://ai-entertainment-alb-873107530.ap-south-1.elb.amazonaws.com'),
 };
 
 // Gemini AI Configuration

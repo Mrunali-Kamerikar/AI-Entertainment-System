@@ -64,7 +64,8 @@ export const ScriptGenerator: React.FC = () => {
     }
 
     setIsGenerating(true);
-    const userId = user?.userId || 'guest';
+    if (!user) return;
+    const userId = user.userId;
     const criteria: ScriptCriteria = {
       idea,
       user_id: userId,

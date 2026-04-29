@@ -270,8 +270,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       try {
         const parsed = JSON.parse(savedUser);
         
-        // Migrate old global demo user to new session-scoped guest ID
-        if (parsed.userId === 'user_demo') {
+        // Migrate old global demo user or generic "guest" to new session-scoped guest ID
+        if (parsed.userId === 'user_demo' || parsed.userId === 'guest') {
           enterDemoMode();
           return;
         }
@@ -369,7 +369,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setIsLoading(true);
     try {
       // Try backend first
-      const backendResult = await getRecommendations({ query, userId: user?.userId || 'guest', limit: 12 });
+      const backendResult = await getRecommendations({ query, userId: user?.userId || 'anonymous', limit: 12 });
       if (backendResult?.movies) {
         setRecommendations(backendResult.movies);
       } else {
