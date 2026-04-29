@@ -33,3 +33,39 @@ jobs:
         run: |
           docker build -t mrunalikamerikar/ai-entertainment-frontend:latest ./frontend
           docker push mrunalikamerikar/ai-entertainment-frontend:latest
+
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Force new ECS deployment backend
+        run: |
+          aws ecs update-service \
+            --cluster ai-entertainment-cluster \
+            --service backend-service \
+            --force-new-deployment
+
+      - name: Force new ECS deployment frontend
+        run: |
+          aws ecs update-service \
+            --cluster ai-entertainment-cluster \
+            --service frontend-service \
+            --force-new-deployment
+
+
+
+
+
+
+
+
+
