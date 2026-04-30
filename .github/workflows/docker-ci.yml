@@ -7,37 +7,49 @@ on:
 
 jobs:
   docker:
-
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Set image tag
+        run: echo "IMAGE_TAG=${{ github.sha }}" >> $GITHUB_ENV
 
+      # -------------------------
+      # Login to DockerHub
+      # -------------------------
       - name: Login to DockerHub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-
+      # -------------------------
+      # Build Backend
+      # -------------------------
       - name: Build Backend
         run: |
-          docker build -t mrunalikamerikar/ai-entertainment-backend:latest ./backend
-          docker push mrunalikamerikar/ai-entertainment-backend:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/ai-entertainment-backend:${{ env.IMAGE_TAG }} ./backend
 
+      - name: Push Backend
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/ai-entertainment-backend:${{ env.IMAGE_TAG }}
 
+      # -------------------------
+      # Build Frontend
+      # -------------------------
       - name: Build Frontend
         run: |
-          docker build -t mrunalikamerikar/ai-entertainment-frontend:latest ./frontend
-          docker push mrunalikamerikar/ai-entertainment-frontend:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/ai-entertainment-frontend:${{ env.IMAGE_TAG }} ./frontend
 
+      - name: Push Frontend
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/ai-entertainment-frontend:${{ env.IMAGE_TAG }}
 
   deploy:
-    needs: docker
     runs-on: ubuntu-latest
+    needs: docker
 
     steps:
       - name: Configure AWS credentials
@@ -45,8 +57,11 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ap-south-1
 
+      # -------------------------
+      # Update Backend Service
+      # -------------------------
       - name: Force new ECS deployment backend
         run: |
           aws ecs update-service \
@@ -54,18 +69,12 @@ jobs:
             --service backend-service \
             --force-new-deployment
 
+      # -------------------------
+      # Update Frontend Service
+      # -------------------------
       - name: Force new ECS deployment frontend
         run: |
           aws ecs update-service \
             --cluster ai-entertainment-cluster \
             --service frontend-service \
             --force-new-deployment
-
-
-
-
-
-
-
-
-
