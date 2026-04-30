@@ -71,7 +71,18 @@ jobs:
             --task-definition backend-task \
             --query taskDefinition > backend-task.json
 
-          jq '.containerDefinitions[0].image = "${{ secrets.DOCKER_USERNAME }}/ai-entertainment-backend:${{ env.IMAGE_TAG }}"' backend-task.json > new-backend-task.json
+          # Clean invalid fields
+          jq 'del(
+            .taskDefinitionArn,
+            .revision,
+            .status,
+            .requiresAttributes,
+            .compatibilities,
+            .registeredAt,
+            .registeredBy
+          ) 
+          | .containerDefinitions[0].image = "${{ secrets.DOCKER_USERNAME }}/ai-entertainment-backend:${{ env.IMAGE_TAG }}"' \
+          backend-task.json > new-backend-task.json
 
           aws ecs register-task-definition \
             --cli-input-json file://new-backend-task.json
@@ -92,11 +103,21 @@ jobs:
             --task-definition frontend-task \
             --query taskDefinition > frontend-task.json
 
-          jq '.containerDefinitions[0].image = "${{ secrets.DOCKER_USERNAME }}/ai-entertainment-frontend:${{ env.IMAGE_TAG }}"' frontend-task.json > new-frontend-task.json
+          jq 'del(
+            .taskDefinitionArn,
+            .revision,
+            .status,
+            .requiresAttributes,
+            .compatibilities,
+            .registeredAt,
+            .registeredBy
+          ) 
+          | .containerDefinitions[0].image = "${{ secrets.DOCKER_USERNAME }}/ai-entertainment-frontend:${{ env.IMAGE_TAG }}"' \
+          frontend-task.json > new-frontend-task.json
 
           aws ecs register-task-definition \
             --cli-input-json file://new-frontend-task.json
-
+            
       - name: Update frontend service
         run: |
           aws ecs update-service \
