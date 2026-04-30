@@ -59,10 +59,24 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
 
+      - name: Set image tag
+        run: echo "IMAGE_TAG=${{ github.sha }}" >> $GITHUB_ENV
+
       # -------------------------
-      # Update Backend Service
+      # Update backend task definition
       # -------------------------
-      - name: Force new ECS deployment backend
+      - name: Register new backend task definition
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition backend-task \
+            --query taskDefinition > backend-task.json
+
+          jq '.containerDefinitions[0].image = "${{ secrets.DOCKER_USERNAME }}/ai-entertainment-backend:${{ env.IMAGE_TAG }}"' backend-task.json > new-backend-task.json
+
+          aws ecs register-task-definition \
+            --cli-input-json file://new-backend-task.json
+
+      - name: Update backend service
         run: |
           aws ecs update-service \
             --cluster ai-entertainment-cluster \
@@ -70,9 +84,20 @@ jobs:
             --force-new-deployment
 
       # -------------------------
-      # Update Frontend Service
+      # Update frontend task definition
       # -------------------------
-      - name: Force new ECS deployment frontend
+      - name: Register new frontend task definition
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition frontend-task \
+            --query taskDefinition > frontend-task.json
+
+          jq '.containerDefinitions[0].image = "${{ secrets.DOCKER_USERNAME }}/ai-entertainment-frontend:${{ env.IMAGE_TAG }}"' frontend-task.json > new-frontend-task.json
+
+          aws ecs register-task-definition \
+            --cli-input-json file://new-frontend-task.json
+
+      - name: Update frontend service
         run: |
           aws ecs update-service \
             --cluster ai-entertainment-cluster \
