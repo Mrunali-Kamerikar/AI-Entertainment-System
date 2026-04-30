@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 from pipeline import ScriptPipeline
 from rag_manager import RAGManager
 from planner_agent import PlannerAgent
+from fastapi.responses import JSONResponse
 
 # Load environment variables
 load_dotenv()
@@ -29,10 +30,14 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Set to ["*"] for deployment testing as requested
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_methods=["*"],
     allow_headers=["*"],
     expose_headers=["*"],
 )
+
+@app.options("/{rest_of_path:path}")
+async def preflight_handler(rest_of_path: str):
+    return JSONResponse(content={"message": "OK"})
 
 # API Router with prefix
 api_router = APIRouter(prefix="/api")
