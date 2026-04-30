@@ -249,6 +249,10 @@ class RatingRequest(BaseModel):
 async def root():
     return {"message": "Entertainment Script Generator API is running"}
 
+@app.get("/health")
+async def health_root():
+    return {"status": "ok"}
+
 @api_router.get("/health")
 async def health():
     return {"status": "ok"}
