@@ -42,6 +42,8 @@ export const TrendingTab: React.FC = () => {
   const sciFi = moviesSource.filter(m => m.genres.includes('Sci-Fi')).slice(0, 8);
   const topRated = [...moviesSource].sort((a, b) => b.vote_average - a.vote_average).slice(0, 8);
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
   return (
     <div>
       {/* Hero banner */}
@@ -51,36 +53,37 @@ export const TrendingTab: React.FC = () => {
         style={{
           background: 'linear-gradient(135deg, rgba(229,9,20,0.1), rgba(255,68,68,0.05), transparent)',
           border: '1px solid rgba(229,9,20,0.15)',
-          borderRadius: 14, padding: '20px 24px', marginBottom: 28,
+          borderRadius: 14, padding: isMobile ? '16px' : '20px 24px', marginBottom: 28,
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           flexWrap: 'wrap', gap: 16,
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 10 : 14 }}>
           <div style={{
-            width: 48, height: 48, borderRadius: 12,
+            width: isMobile ? 40 : 48, height: isMobile ? 40 : 48, borderRadius: 12,
             background: 'rgba(229,9,20,0.15)', border: '1px solid rgba(229,9,20,0.2)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
+            flexShrink: 0,
           }}>
-            <Flame size={24} color="#E50914" />
+            <Flame size={isMobile ? 20 : 24} color="#E50914" />
           </div>
           <div>
-            <h2 style={{ color: '#fff', margin: 0, fontSize: '1.2rem', fontWeight: 700 }}>Trending Now</h2>
-            <p style={{ color: '#666', margin: 0, fontSize: '0.8rem' }}>
-              Real-time data · Powered by TMDB & AI analysis
+            <h2 style={{ color: '#fff', margin: 0, fontSize: isMobile ? '1.05rem' : '1.2rem', fontWeight: 700 }}>Trending Now</h2>
+            <p style={{ color: '#666', margin: 0, fontSize: isMobile ? '0.7rem' : '0.8rem' }}>
+              Real-time data · Powered by TMDB & AI
             </p>
           </div>
         </div>
-        <div style={{ display: 'flex', gap: 16 }}>
+        <div style={{ display: 'flex', gap: isMobile ? 12 : 16, width: isMobile ? '100%' : 'auto', justifyContent: isMobile ? 'space-between' : 'flex-end' }}>
           {[
             { icon: TrendingUp, label: 'This Week', value: `${topTen.length} films`, color: '#4BCBEB' },
             { icon: Brain, label: 'AI Picks', value: `${moviesSource.length} total`, color: '#E50914' },
-            { icon: Award, label: 'Top Rated', value: topRated.length > 0 ? `${topRated[0]?.vote_average?.toFixed(1)}+ avg` : 'N/A', color: '#F7B731' },
+            { icon: Award, label: 'Top Rated', value: topRated.length > 0 ? `${topRated[0]?.vote_average?.toFixed(1)}+` : 'N/A', color: '#F7B731' },
           ].map(stat => (
-            <div key={stat.label} style={{ textAlign: 'center' }}>
-              <stat.icon size={16} color={stat.color} style={{ marginBottom: 4, display: 'block', margin: '0 auto 4px' }} />
-              <p style={{ color: '#fff', margin: 0, fontSize: '0.8rem', fontWeight: 700 }}>{stat.value}</p>
-              <p style={{ color: '#555', margin: 0, fontSize: '0.7rem' }}>{stat.label}</p>
+            <div key={stat.label} style={{ textAlign: 'center', flex: isMobile ? 1 : 'none' }}>
+              <stat.icon size={isMobile ? 14 : 16} color={stat.color} style={{ marginBottom: 4, display: 'block', margin: '0 auto 4px' }} />
+              <p style={{ color: '#fff', margin: 0, fontSize: isMobile ? '0.75rem' : '0.8rem', fontWeight: 700 }}>{stat.value}</p>
+              <p style={{ color: '#555', margin: 0, fontSize: '0.65rem' }}>{stat.label}</p>
             </div>
           ))}
         </div>

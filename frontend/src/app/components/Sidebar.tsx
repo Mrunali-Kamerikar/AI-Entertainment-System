@@ -12,6 +12,8 @@ export const Sidebar: React.FC = () => {
   const { user, logout, isSidebarOpen, setIsSidebarOpen, activeTab, setActiveTab, recentHistory } = useApp();
   const navigate = useNavigate();
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
+
   const handleLogout = () => {
     logout();
     navigate('/');
@@ -47,10 +49,12 @@ export const Sidebar: React.FC = () => {
 
       {/* Sidebar Panel */}
       <motion.aside
-        animate={{ width: isSidebarOpen ? 256 : 64 }}
+        initial={isMobile ? { x: -256 } : false}
+        animate={isMobile ? { x: isSidebarOpen ? 0 : -256 } : { width: isSidebarOpen ? 256 : 64 }}
         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
         style={{
           height: '100vh', position: 'fixed', top: 0, left: 0, zIndex: 30,
+          width: isMobile ? 256 : undefined,
           background: '#0d0d0d',
           borderRight: '1px solid #1a1a1a',
           display: 'flex', flexDirection: 'column',

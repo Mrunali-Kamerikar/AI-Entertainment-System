@@ -27,10 +27,11 @@ export const Dashboard: React.FC = () => {
   } = useApp();
   const navigate = useNavigate();
 
-  const sidebarWidth = isSidebarOpen ? 256 : 64;
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
+  const sidebarWidth = isSidebarOpen ? 256 : (isMobile ? 0 : 64);
 
   return (
-    <div style={{ minHeight: '100vh', background: '#141414', display: 'flex' }}>
+    <div style={{ minHeight: '100vh', background: '#141414', display: 'flex', overflowX: 'hidden' }}>
       {/* Data Source Indicator */}
       <DataSourceIndicator />
       
@@ -39,7 +40,7 @@ export const Dashboard: React.FC = () => {
 
       {/* Main content area */}
       <motion.main
-        animate={{ marginLeft: sidebarWidth }}
+        animate={{ marginLeft: isMobile ? 0 : sidebarWidth }}
         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
         style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', minHeight: '100vh' }}
       >
@@ -49,12 +50,11 @@ export const Dashboard: React.FC = () => {
           background: 'rgba(20,20,20,0.95)',
           borderBottom: '1px solid #1a1a1a',
           backdropFilter: 'blur(12px)',
-          padding: '0 24px',
+          padding: isMobile ? '0 12px' : '0 24px',
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16, height: 64 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 8 : 16, height: 64 }}>
             {/* Mobile menu toggle */}
             <button
-              className="lg:hidden"
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
               style={{
                 background: 'none', border: 'none', cursor: 'pointer',
@@ -65,23 +65,23 @@ export const Dashboard: React.FC = () => {
             </button>
 
             {/* Search bar */}
-            <div style={{ flex: 1, maxWidth: 680 }}>
+            <div style={{ flex: 1, maxWidth: isMobile ? 'none' : 680 }}>
               <SearchBar />
             </div>
 
             {/* User greeting */}
-            <div className="hidden md:flex items-center gap-10 ml-auto">
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 8 : 24, marginLeft: 'auto' }}>
+              <div style={{ display: isMobile ? 'none' : 'flex', alignItems: 'center', gap: 8 }}>
                 <Sparkles size={14} color="#E50914" />
                 <span style={{ color: '#666', fontSize: '0.78rem' }}>
                   AI-powered for <span style={{ color: '#ccc' }}>{user?.username}</span>
                 </span>
               </div>
               <div style={{
-                width: 34, height: 34, borderRadius: '50%',
+                width: isMobile ? 30 : 34, height: isMobile ? 30 : 34, borderRadius: '50%',
                 background: 'linear-gradient(135deg, #E50914, #ff4444)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: '#fff', fontWeight: 700, fontSize: '0.9rem',
+                color: '#fff', fontWeight: 700, fontSize: isMobile ? '0.8rem' : '0.9rem',
                 cursor: 'pointer',
               }}>
                 {user?.username?.[0]?.toUpperCase() || 'U'}
@@ -92,7 +92,13 @@ export const Dashboard: React.FC = () => {
         </header>
 
         {/* Page content */}
-        <div style={{ flex: 1, padding: '28px 24px', maxWidth: 1400, width: '100%' }}>
+        <div style={{ 
+          flex: 1, 
+          padding: isMobile ? '16px 12px' : '28px 24px', 
+          maxWidth: 1400, 
+          width: '100%',
+          margin: '0 auto' 
+        }}>
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}

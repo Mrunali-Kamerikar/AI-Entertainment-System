@@ -26,6 +26,8 @@ export const ScriptGenerator: React.FC = () => {
   const [history, setHistory] = useState<any[]>([]);
   const [showUpgrade, setShowUpgrade] = useState(false);
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
   const trialLimit = 2;
   const currentUsage = trialUsage.generator;
   const isLimitReached = user?.isDemo && currentUsage >= trialLimit;
@@ -197,12 +199,15 @@ export const ScriptGenerator: React.FC = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed bottom-6 right-6 z-50 flex flex-col overflow-hidden"
+            className="fixed z-50 flex flex-col overflow-hidden"
             style={{
-              width: 'min(520px, calc(100vw - 48px))',
-              height: 'min(700px, calc(100vh - 100px))',
+              inset: isMobile ? '0' : 'auto',
+              bottom: isMobile ? '0' : '24px',
+              right: isMobile ? '0' : '24px',
+              width: isMobile ? '100%' : 'min(520px, calc(100vw - 48px))',
+              height: isMobile ? '100%' : 'min(700px, calc(100vh - 100px))',
               background: 'linear-gradient(180deg, #1a1a1a 0%, #141414 100%)',
-              borderRadius: 20,
+              borderRadius: isMobile ? 0 : 20,
               boxShadow: '0 24px 60px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.08)',
             }}
           >

@@ -170,13 +170,15 @@ export const MovieModal: React.FC = () => {
     { key: 'similar', label: 'Similar' },
   ];
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
   return (
     <AnimatePresence>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
+        className="fixed inset-0 z-50 flex items-center justify-center p-0 md:p-8"
         style={{ backgroundColor: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(6px)' }}
         onClick={() => setSelectedMovie(null)}
       >
@@ -187,11 +189,12 @@ export const MovieModal: React.FC = () => {
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
           style={{
             background: '#141414',
-            borderRadius: 16,
+            borderRadius: isMobile ? 0 : 16,
             overflow: 'hidden',
             maxWidth: 900,
             width: '100%',
-            maxHeight: '90vh',
+            height: isMobile ? '100%' : 'auto',
+            maxHeight: isMobile ? '100vh' : '90vh',
             overflowY: 'auto',
             scrollbarWidth: 'thin',
             scrollbarColor: '#333 transparent',
@@ -199,7 +202,7 @@ export const MovieModal: React.FC = () => {
           onClick={e => e.stopPropagation()}
         >
           {/* Backdrop Header */}
-          <div style={{ position: 'relative', aspectRatio: '16/7', overflow: 'hidden', minHeight: 220 }}>
+          <div style={{ position: 'relative', aspectRatio: isMobile ? '4/3' : '16/7', overflow: 'hidden', minHeight: isMobile ? 250 : 220 }}>
             {backdropUrl ? (
               <ImageWithFallback
                 src={backdropUrl}
@@ -218,12 +221,16 @@ export const MovieModal: React.FC = () => {
             {/* Gradient overlay */}
             <div style={{
               position: 'absolute', inset: 0,
-              background: 'linear-gradient(to right, rgba(20,20,20,0.95) 25%, transparent 60%, rgba(20,20,20,0.3) 100%)',
+              background: isMobile 
+                ? 'linear-gradient(to top, #141414 0%, transparent 60%)'
+                : 'linear-gradient(to right, rgba(20,20,20,0.95) 25%, transparent 60%, rgba(20,20,20,0.3) 100%)',
             }} />
-            <div style={{
-              position: 'absolute', bottom: 0, left: 0, right: 0, height: 120,
-              background: 'linear-gradient(to top, #141414, transparent)',
-            }} />
+            {!isMobile && (
+              <div style={{
+                position: 'absolute', bottom: 0, left: 0, right: 0, height: 120,
+                background: 'linear-gradient(to top, #141414, transparent)',
+              }} />
+            )}
 
             {/* Close Button */}
             <button
@@ -234,6 +241,7 @@ export const MovieModal: React.FC = () => {
                 borderRadius: '50%', width: 36, height: 36,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 cursor: 'pointer', color: '#fff',
+                zIndex: 10,
               }}
             >
               <X size={16} />
@@ -241,72 +249,56 @@ export const MovieModal: React.FC = () => {
 
             {/* Hero Info */}
             <div style={{
-              position: 'absolute', bottom: 20, left: 24, right: 24,
-              display: 'flex', alignItems: 'flex-end', gap: 20,
+              position: 'absolute', bottom: isMobile ? 16 : 20, left: isMobile ? 16 : 24, right: isMobile ? 16 : 24,
+              display: 'flex', alignItems: isMobile ? 'center' : 'flex-end', 
+              flexDirection: isMobile ? 'column' : 'row',
+              gap: isMobile ? 12 : 20,
+              textAlign: isMobile ? 'center' : 'left',
             }}>
-              <ImageWithFallback
-                src={posterUrl}
-                alt={movie.title}
-                style={{
-                  width: 100, borderRadius: 8,
-                  boxShadow: '0 8px 32px rgba(0,0,0,0.8)',
-                  flexShrink: 0, display: 'block',
-                }}
-              />
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <h2 style={{ color: '#fff', margin: '0 0 4px', fontSize: '1.6rem' }}>{movie.title}</h2>
-                {movie.tagline && (
-                  <p style={{ color: '#E50914', fontSize: '0.85rem', margin: '0 0 8px', fontStyle: 'italic' }}>
-                    "{movie.tagline}"
-                  </p>
-                )}
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
-                  <div style={{ display: 'flex', gap: 4 }}>
-                    {movie.genres.slice(0, 3).map(g => (
-                      <span key={g} style={{
-                        background: 'rgba(229,9,20,0.15)', border: '1px solid rgba(229,9,20,0.3)',
-                        borderRadius: 5, padding: '2px 8px', color: '#E50914', fontSize: '0.75rem',
-                      }}>{g}</span>
-                    ))}
-                  </div>
-                  {movie.release_date && (
-                    <span style={{ color: '#888', fontSize: '0.78rem', display: 'flex', alignItems: 'center', gap: 4 }}>
-                      <Calendar size={12} /> {movie.release_date.slice(0, 4)}
-                    </span>
-                  )}
-                  {movie.runtime > 0 && (
-                    <span style={{ color: '#888', fontSize: '0.78rem', display: 'flex', alignItems: 'center', gap: 4 }}>
-                      <Clock size={12} /> {movie.runtime}m
-                    </span>
-                  )}
-                  <span style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#F5C518', fontSize: '0.78rem' }}>
-                    <Star size={12} fill="#F5C518" stroke="none" /> {movie.vote_average.toFixed(1)}
-                  </span>
-                </div>
+              <div style={{ display: isMobile ? 'none' : 'block' }}>
+                <ImageWithFallback
+                  src={posterUrl}
+                  alt={movie.title}
+                  style={{
+                    width: 120, borderRadius: 8, boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
+                    aspectRatio: '2/3', objectFit: 'cover'
+                  }}
+                />
               </div>
-              {/* AI Score pill */}
-              <div style={{
-                background: 'linear-gradient(135deg, rgba(229,9,20,0.2), rgba(229,9,20,0.05))',
-                border: '1px solid rgba(229,9,20,0.4)',
-                borderRadius: 12, padding: '12px 16px', textAlign: 'center', flexShrink: 0,
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
-                  <Brain size={14} color="#E50914" />
-                  <span style={{ color: '#aaa', fontSize: '0.7rem' }}>AI SCORE</span>
+              <div style={{ flex: 1, width: '100%' }}>
+                <h1 style={{ 
+                  color: '#fff', margin: '0 0 8px', 
+                  fontSize: isMobile ? '1.5rem' : '2.2rem', 
+                  fontWeight: 800, textShadow: '0 2px 10px rgba(0,0,0,0.5)' 
+                }}>{movie.title}</h1>
+                <div style={{ 
+                  display: 'flex', alignItems: 'center', 
+                  justifyContent: isMobile ? 'center' : 'flex-start',
+                  gap: 12, flexWrap: 'wrap' 
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#4CAF50', fontWeight: 700 }}>
+                    <ThumbsUp size={14} />
+                    <span>AI Match: {movie.aiScore * 10}%</span>
+                  </div>
+                  <div style={{ color: '#aaa', fontSize: '0.85rem' }}>{movie.release_date?.split('-')[0]}</div>
+                  {movieDetails?.runtime && (
+                    <div style={{ color: '#aaa', fontSize: '0.85rem' }}>{Math.floor(movieDetails.runtime / 60)}h {movieDetails.runtime % 60}m</div>
+                  )}
+                  <span style={{ border: '1px solid #555', padding: '1px 6px', fontSize: '0.7rem', color: '#ccc', borderRadius: 2 }}>HD</span>
                 </div>
-                <span style={{ color: '#fff', fontSize: '1.8rem', fontWeight: 800 }}>{movie.aiScore}</span>
               </div>
             </div>
           </div>
 
           {/* Action Buttons */}
-          <div style={{ padding: '16px 24px 0', display: 'flex', gap: 10, alignItems: 'center' }}>
+          <div style={{ padding: isMobile ? '16px 16px 0' : '16px 24px 0', display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               style={{
                 background: '#fff', border: 'none', borderRadius: 8,
-                padding: '10px 24px', display: 'flex', alignItems: 'center', gap: 8,
+                padding: isMobile ? '8px 16px' : '10px 24px', 
+                display: 'flex', alignItems: 'center', gap: 8,
                 color: '#000', fontWeight: 700, cursor: 'pointer', fontSize: '0.9rem',
               }}
             >
@@ -319,7 +311,7 @@ export const MovieModal: React.FC = () => {
               style={{
                 background: isInWatchlist(movie.id) ? 'rgba(229,9,20,0.2)' : 'rgba(255,255,255,0.1)',
                 border: isInWatchlist(movie.id) ? '1px solid #E50914' : '1px solid rgba(255,255,255,0.2)',
-                borderRadius: 8, padding: '10px 20px',
+                borderRadius: 8, padding: isMobile ? '8px 12px' : '10px 20px',
                 display: 'flex', alignItems: 'center', gap: 8,
                 color: isInWatchlist(movie.id) ? '#E50914' : '#fff', cursor: 'pointer', fontSize: '0.9rem',
               }}
@@ -333,13 +325,13 @@ export const MovieModal: React.FC = () => {
                 background: isFavorite(movie.id) ? 'rgba(229,9,20,0.2)' : 'rgba(255,255,255,0.1)',
                 border: isFavorite(movie.id) ? '1px solid #E50914' : '1px solid rgba(255,255,255,0.2)',
                 borderRadius: '50%', width: 40, height: 40,
-                display: 'flex', alignItems: 'center', justifyCenter: 'center',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
                 cursor: 'pointer', color: isFavorite(movie.id) ? '#E50914' : '#fff',
               }}
             >
               <ThumbsUp size={16} fill={isFavorite(movie.id) ? '#E50914' : 'none'} />
             </motion.button>
-            <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div style={{ marginLeft: isMobile ? 0 : 'auto', display: 'flex', alignItems: 'center', gap: 8, width: isMobile ? '100%' : 'auto', marginTop: isMobile ? 8 : 0 }}>
               <span style={{ color: '#888', fontSize: '0.82rem' }}>Your rating:</span>
               <StarRating
                 size="md"
