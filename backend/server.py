@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 from pipeline import ScriptPipeline
 from rag_manager import RAGManager
 from planner_agent import PlannerAgent
-from fastapi.responses import JSONResponse
+from passlib.hash import pbkdf2_sha256
 
 # Load environment variables
 load_dotenv()
@@ -21,7 +21,15 @@ JWT_SECRET = os.getenv("JWT_SECRET", "supersecretkey")
 JWT_ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 1440))
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# Use pbkdf2_sha256 as it is more compatible with current environments than bcrypt
+def get_password_hash(password):
+    return pbkdf2_sha256.hash(password)
+
+def verify_password(plain_password, hashed_password):
+    try:
+        return pbkdf2_sha256.verify(plain_password, hashed_password)
+    except Exception:
+        return False
 
 app = FastAPI(title="Entertainment Script Generator API")
 
@@ -134,11 +142,6 @@ def load_engagement():
 def save_engagement(data):
     with open(ENGAGEMENT_FILE, "w") as f:
         json.dump(data, f, indent=4)
-def get_password_hash(password):
-    return pwd_context.hash(password)
-
-def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
 
 def create_access_token(data: dict):
     to_encode = data.copy()

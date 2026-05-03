@@ -1,0 +1,9 @@
+{
+    "abc@abc.com": {
+        "email": "abc@abc.com",
+        "username": "abc",
+        "password": "$pbkdf2-sha256$29000$PGfsPeec05ozZuxdq3Xu/Q$LaIpJ.HUqMyV8CuIMf38o.2qk2NKZDB47.pr7eNUe1U",
+        "userId": "user_abc",
+        "created_at": "2026-05-03T17:36:47.184303"
+    }
+}

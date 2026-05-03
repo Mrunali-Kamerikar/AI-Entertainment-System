@@ -136,7 +136,7 @@ export const SignUp: React.FC = () => {
     try {
       await signup(email, username, password);
       setSuccess('Account created successfully!');
-      setTimeout(() => navigate('/dashboard'), 1000);
+      setTimeout(() => navigate('/dashboard'), 1500);
     } catch (err: any) {
       setError(err.message || 'Signup failed. Please try again.');
       setIsLoading(false);

@@ -142,6 +142,7 @@ export const Login: React.FC = () => {
         forgetUsername();
       }
       setSuccess('Login successful!');
+      setTimeout(() => navigate('/dashboard'), 1500);
     } catch (err: any) {
       setError(err.message || 'Invalid email or password');
       setIsLoading(false);
