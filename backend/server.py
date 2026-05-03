@@ -534,8 +534,10 @@ async def refine_script(request: RefineRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# Include the router
+# Include the router - handle path stripping for local vs proxy
 app.include_router(api_router)
+# Support both /api and no-prefix routes for local/direct access compatibility
+app.include_router(api_router, prefix="")
 
 if __name__ == "__main__":
     import uvicorn
